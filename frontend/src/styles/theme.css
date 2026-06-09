@@ -1,0 +1,55 @@
+/* 편입수학 테마 — CSS 변수 + 반응형 + 애니메이션 */
+
+:root {
+  --primary: #D97757;
+  --primary-light: #F5E6DC;
+  --primary-hover: #C4684A;
+  --surface: #FFFFFF;
+  --bg: #FAF9F7;
+  --border: #EEEAE5;
+  --border-strong: #D5D0C8;
+  --text-primary: #1A1A1A;
+  --text-secondary: #6B6B6B;
+  --text-muted: #9B9B9B;
+  --font-serif: 'Georgia', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'SF Mono', 'Menlo', monospace;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* 반응형 컨테이너 */
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--bg);
+  position: relative;
+}
+
+/* 데스크톱 */
+@media (min-width: 768px) {
+  .app-container {
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.06);
+  }
+}

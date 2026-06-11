@@ -36,7 +36,7 @@ export const CALCULUS_UNITS: GeneratedUnit[] = [
     "id": "u03",
     "name": "지수·로그",
     "order": 3,
-    "count": 3
+    "count": 2
   },
   {
     "id": "u04",
@@ -72,7 +72,7 @@ export const CALCULUS_UNITS: GeneratedUnit[] = [
     "id": "u09",
     "name": "미분의 응용",
     "order": 9,
-    "count": 10
+    "count": 9
   },
   {
     "id": "u10",
@@ -100,9 +100,9 @@ export const CALCULUS_UNITS: GeneratedUnit[] = [
   },
   {
     "id": "u14",
-    "name": "적분의 응용(넓이·길이·부피·표면적)",
+    "name": "적분의 응용",
     "order": 14,
-    "count": 9
+    "count": 5
   }
 ];
 
@@ -591,20 +591,12 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "id": "f0061",
     "unit": "u03",
     "title": "로그법칙",
-    "contentMd": "$(a^m = N \\iff m = \\log_a N, \\ a > 0, \\ a \\neq 1, \\ M > 0, \\ N > 0)$\n\n1) $\\log_a 1 = 0, \\ \\ln 1 = 0$\n\n2) $\\log_a a = 1, \\ \\ln e = 1$\n\n3) $\\log_a MN = \\log_a M + \\log_a N$\n\n4) $\\log_a \\dfrac{M}{N} = \\log_a M - \\log_a N$\n\n5) $\\log_a M^n = n \\log_a M$\n\n6) $\\log_{a^m} b^n = \\dfrac{n}{m} \\log_a b$\n\n7) $\\log_a b = \\dfrac{\\log_c b}{\\log_c a}$\n\n8) $a^{\\log_a b} = b, \\quad \\star = e^{\\ln \\star}$\n\n9) $\\log_e x = \\ln x \\quad (e = 2.718\\cdots)$",
+    "contentMd": "$(a^m = N \\iff m = \\log_a N, \\ a > 0, \\ a \\neq 1, \\ M > 0, \\ N > 0)$\n\n1) $\\log_a 1 = 0, \\ \\ln 1 = 0$\n\n2) $\\log_a a = 1, \\ \\ln e = 1$\n\n3) $\\log_a MN = \\log_a M + \\log_a N$\n\n4) $\\log_a \\dfrac{M}{N} = \\log_a M - \\log_a N$\n\n5) $\\log_a M^n = n \\log_a M$\n\n6) $\\log_{a^m} b^n = \\dfrac{n}{m} \\log_a b$\n\n7) $\\log_a b = \\dfrac{\\log_c b}{\\log_c a}$\n\n8) $a^{\\log_a b} = b, \\quad \\star = e^{\\ln \\star}$\n\n9) $\\log_e x = \\ln x \\quad (e = 2.718\\cdots)$\n\n#### ※ 지수함수와 로그함수의 관계\n\n(1) $y = e^x > 0 \\iff y = \\log_e x = \\ln x \\ (x > 0)$ — 위 (11) 그래프 참고\n\n(2) $y = e^{-x} = \\dfrac{1}{e^x} > 0 \\iff y = -\\log_e x = -\\ln x \\ (x > 0)$ — 위 (12) 그래프 참고",
     "svg": null,
     "order": 2
   },
   {
     "id": "f0062",
-    "unit": "u03",
-    "title": "※ 지수함수와 로그함수의 관계",
-    "contentMd": "(1) $y = e^x > 0 \\iff y = \\log_e x = \\ln x \\ (x > 0)$ — 위 (11) 그래프 참고\n\n(2) $y = e^{-x} = \\dfrac{1}{e^x} > 0 \\iff y = -\\log_e x = -\\ln x \\ (x > 0)$ — 위 (12) 그래프 참고",
-    "svg": null,
-    "order": 3
-  },
-  {
-    "id": "f0063",
     "unit": "u04",
     "title": "곱셈공식",
     "contentMd": "1) $m(a+b) = ma + mb, \\quad m(a-b) = ma - mb$\n\n2) $(a+b)^2 = a^2 + 2ab + b^2$\n\n3) $(a-b)^2 = a^2 - 2ab + b^2$\n\n4) $(a+b)(a-b) = a^2 - b^2$\n\n5) $(a+b+c)^2 = a^2 + b^2 + c^2 + 2(ab + bc + ca)$\n\n6) $(a+b)^3 = a^3 + 3a^2 b + 3ab^2 + b^3 = a^3 + 3ab(a+b) + b^3$\n\n7) $(a-b)^3 = a^3 - 3a^2 b + 3ab^2 - b^3 = a^3 - 3ab(a-b) - b^3$\n\n8) $(x+a)(x+b) = x^2 + (a+b)x + ab$\n\n9) $(x+a)(x+b)(x+c) = x^3 + (a+b+c)x^2 + (ab + bc + ca)x + abc$\n\n10) $(ax+b)(cx+d) = acx^2 + (ad + bc)x + bd$\n\n11) $(a+b)(a^2 - ab + b^2) = a^3 + b^3$\n\n12) $(a-b)(a^2 + ab + b^2) = a^3 - b^3$\n\n13) $(a+b+c)(a^2 + b^2 + c^2 - ab - bc - ca) = a^3 + b^3 + c^3 - 3abc$\n\n14) $(a^2 + ab + b^2)(a^2 - ab + b^2) = a^4 + a^2 b^2 + b^4$ (단, 복호동순)\n\n15) $\\sqrt{a + 2\\sqrt{b}} = \\sqrt{x} + \\sqrt{y} \\ (x, y > 0) \\iff a = x + y, \\ b = xy$\n\n16) $\\sqrt{a - 2\\sqrt{b}} = \\sqrt{x} - \\sqrt{y} \\ (x > y > 0) \\iff a = x + y, \\ b = xy$",
@@ -612,7 +604,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0064",
+    "id": "f0063",
     "unit": "u04",
     "title": "인수분해",
     "contentMd": "1) $ax + bx = (a+b)x$\n\n2) $a^2 + 2ab + b^2 = (a+b)^2$\n\n3) $a^2 - 2ab + b^2 = (a-b)^2$\n\n4) $x^2 + (a+b)x + ab = (x+a)(x+b)$\n\n5) $acx^2 + (ad + bc)x + bd = (ax+b)(cx+d)$\n\n6) $a^2 - b^2 = (a+b)(a-b)$\n\n7) $a^3 - b^3 = (a-b)(a^2 + ab + b^2)$\n\n8) $a^3 + b^3 = (a+b)(a^2 - ab + b^2)$\n\n9) $a^4 - b^4 = (a-b)(a+b)(a^2 + b^2)$\n\n> ※ 곱셈공식을 활용할 수 없는 2차식의 인수분해 예: $x^2 + 4x - 5 = (x+5)(x-1)$",
@@ -620,7 +612,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0065",
+    "id": "f0064",
     "unit": "u04",
     "title": "여러 가지 수",
     "contentMd": "(1) 원주율 $\\pi \\approx 3.14159$\n\n(2) 자연로그 $e \\approx 2.71828, \\quad (e^2 \\approx 7.3890)$\n\n(3) $1\\,\\text{rad} = \\dfrac{180°}{\\pi} \\approx 57°$\n\n(4) $\\sqrt{2} \\approx 1.4142$\n\n(5) $\\sqrt{3} \\approx 1.7320$\n\n(6) $\\sqrt{5} \\approx 2.2360$\n\n(7) $\\sqrt{7} \\approx 2.6457$\n\n(8) $n \\in$ 자연수:\n\n$$n! = n(n-1)(n-2)\\cdots 2 \\cdot 1, \\quad (n+1)! = (n+1) \\cdot n!$$\n\n(9) ${}_n P_r = n(n-1)(n-2)\\cdots(n-(r-1))$\n\nex) ${}_5 P_3 = 5 \\cdot 4 \\cdot 3 = 20$\n\n(10) ${}_n C_r = \\dfrac{n(n-1)(n-2)\\cdots(n-(r-1))}{r!} = {}_n C_{(n-r)}$\n\nex) ${}_5 C_3 = \\dfrac{5 \\cdot 4 \\cdot 3}{3!} = {}_5 C_2$",
@@ -628,7 +620,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 3
   },
   {
-    "id": "f0066",
+    "id": "f0065",
     "unit": "u05",
     "title": "(1) 일반각 $\\theta$에 대한 삼각함수",
     "contentMd": "단, $r = \\sqrt{x^2 + y^2}$, 점 $P(x, y)$\n\n① $\\sin\\theta = \\dfrac{y}{r}$\n\n② $\\cos\\theta = \\dfrac{x}{r}$\n\n③ $\\tan\\theta = \\dfrac{\\sin\\theta}{\\cos\\theta} = \\dfrac{y}{x}$\n\n④ $\\csc\\theta = \\dfrac{1}{\\sin\\theta}$\n\n⑤ $\\sec\\theta = \\dfrac{1}{\\cos\\theta}$\n\n⑥ $\\cot\\theta = \\dfrac{1}{\\tan\\theta}$\n\n⑦ $\\cos^2\\theta + \\sin^2\\theta = 1$\n\n⑧ $1 + \\tan^2\\theta = \\sec^2\\theta$\n\n⑨ $1 + \\cot^2\\theta = \\csc^2\\theta$",
@@ -636,7 +628,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0067",
+    "id": "f0066",
     "unit": "u05",
     "title": "(2) 특수예각의 삼각비 값",
     "contentMd": "| $\\theta$ | $0$ | $\\dfrac{\\pi}{6}$ | $\\dfrac{\\pi}{4}$ | $\\dfrac{\\pi}{3}$ | $\\dfrac{\\pi}{2}$ |\n|---|---|---|---|---|---|\n| $\\sin\\theta$ | $0$ | $\\dfrac{1}{2}$ | $\\dfrac{\\sqrt{2}}{2}$ | $\\dfrac{\\sqrt{3}}{2}$ | $1$ |\n| $\\cos\\theta$ | $1$ | $\\dfrac{\\sqrt{3}}{2}$ | $\\dfrac{\\sqrt{2}}{2}$ | $\\dfrac{1}{2}$ | $0$ |\n| $\\tan\\theta$ | $0$ | $\\dfrac{1}{\\sqrt{3}}$ | $1$ | $\\sqrt{3}$ | $\\infty$ |",
@@ -644,7 +636,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0068",
+    "id": "f0067",
     "unit": "u05",
     "title": "(3) 삼각함수의 가법공식",
     "contentMd": "① $\\sin(A+B) = \\sin A \\cos B + \\cos A \\sin B$\n\n② $\\sin(A-B) = \\sin A \\cos B - \\cos A \\sin B$\n\n③ $\\cos(A+B) = \\cos A \\cos B - \\sin A \\sin B$\n\n④ $\\cos(A-B) = \\cos A \\cos B + \\sin A \\sin B$\n\n⑤ $\\tan(A+B) = \\dfrac{\\tan A + \\tan B}{1 - \\tan A \\tan B}$\n\n⑥ $\\tan(A-B) = \\dfrac{\\tan A - \\tan B}{1 + \\tan A \\tan B}$",
@@ -652,7 +644,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 3
   },
   {
-    "id": "f0069",
+    "id": "f0068",
     "unit": "u05",
     "title": "(4) 삼각함수의 2배각 공식",
     "contentMd": "① $\\sin 2A = 2 \\sin A \\cos A$\n\n② $\\cos 2A = \\cos^2 A - \\sin^2 A$\n\n③ $\\tan 2A = \\dfrac{2 \\tan A}{1 - \\tan^2 A}$",
@@ -660,7 +652,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 4
   },
   {
-    "id": "f0070",
+    "id": "f0069",
     "unit": "u05",
     "title": "(5) 삼각함수의 반각공식",
     "contentMd": "① $\\sin^2 A = \\dfrac{1 - \\cos 2A}{2}$\n\n② $\\cos^2 A = \\dfrac{1 + \\cos 2A}{2}$",
@@ -668,7 +660,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 5
   },
   {
-    "id": "f0071",
+    "id": "f0070",
     "unit": "u05",
     "title": "(6) 곱을 합 또는 차로 고치는 공식",
     "contentMd": "① $\\sin A \\cos B = \\dfrac{1}{2}\\{\\sin(A+B) + \\sin(A-B)\\}$\n\n② $\\cos A \\sin B = \\dfrac{1}{2}\\{\\sin(A+B) - \\sin(A-B)\\}$\n\n③ $\\cos A \\cos B = \\dfrac{1}{2}\\{\\cos(A+B) + \\cos(A-B)\\}$\n\n④ $\\sin A \\sin B = -\\dfrac{1}{2}\\{\\cos(A+B) - \\cos(A-B)\\}$",
@@ -676,7 +668,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 6
   },
   {
-    "id": "f0072",
+    "id": "f0071",
     "unit": "u05",
     "title": "(7) 삼각함수의 변환공식",
     "contentMd": "① $\\sin(-\\theta) = -\\sin\\theta, \\ \\cos(-\\theta) = \\cos\\theta, \\ \\tan(-\\theta) = -\\tan\\theta$\n\n② $\\sin(2n\\pi + \\theta) = \\sin\\theta, \\ \\cos(2n\\pi + \\theta) = \\cos\\theta, \\ \\tan(n\\pi + \\theta) = \\tan\\theta$\n\n③ $\\sin\\left(\\dfrac{\\pi}{2} \\times n \\pm \\theta\\right) = \\begin{cases} \\pm \\sin\\theta & (n: \\text{짝수}) \\\\ \\pm \\cos\\theta & (n: \\text{홀수}) \\end{cases}$\n\n④ $\\cos\\left(\\dfrac{\\pi}{2} \\times n \\pm \\theta\\right) = \\begin{cases} \\pm \\cos\\theta & (n: \\text{짝수}) \\\\ \\pm \\sin\\theta & (n: \\text{홀수}) \\end{cases}$\n\n⑤ $\\tan\\left(\\dfrac{\\pi}{2} \\times n \\pm \\theta\\right) = \\begin{cases} \\pm \\tan\\theta & (n: \\text{짝수}) \\\\ \\pm \\cot\\theta & (n: \\text{홀수}) \\end{cases}$",
@@ -684,7 +676,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 7
   },
   {
-    "id": "f0073",
+    "id": "f0072",
     "unit": "u05",
     "title": "(8) 삼각함수의 합성",
     "contentMd": "$$a\\sin\\theta + b\\cos\\theta = \\sqrt{a^2+b^2}\\sin(\\theta + \\alpha)$$\n\n$$\\left(\\text{단, } \\dfrac{a}{\\sqrt{a^2+b^2}} = \\cos\\alpha, \\ \\dfrac{b}{\\sqrt{a^2+b^2}} = \\sin\\alpha\\right)$$\n\n$$\\therefore -\\sqrt{a^2+b^2} \\leq a\\sin\\theta + b\\cos\\theta \\leq \\sqrt{a^2+b^2}$$",
@@ -692,7 +684,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 8
   },
   {
-    "id": "f0074",
+    "id": "f0073",
     "unit": "u05",
     "title": "(9) $\\tan\\dfrac{x}{2} = t$로 치환",
     "contentMd": "① $\\sin x = \\dfrac{2t}{1 + t^2}$\n\n② $\\cos x = \\dfrac{1 - t^2}{1 + t^2}$\n\n③ $dx = \\dfrac{2}{1 + t^2}\\,dt$",
@@ -700,7 +692,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 9
   },
   {
-    "id": "f0075",
+    "id": "f0074",
     "unit": "u05",
     "title": "(10) $\\tan x = t$로 치환",
     "contentMd": "① $\\sin 2x = \\dfrac{2t}{1 + t^2}$\n\n② $\\cos 2x = \\dfrac{1 - t^2}{1 + t^2}$\n\n③ $dx = \\dfrac{1}{1 + t^2}\\,dt$",
@@ -708,7 +700,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 10
   },
   {
-    "id": "f0076",
+    "id": "f0075",
     "unit": "u05",
     "title": "(11) 역삼각함수 성질 & 관계식",
     "contentMd": "① $\\sin^{-1}(-x) = -\\sin^{-1} x$\n\n② $\\tan^{-1}(-x) = -\\tan^{-1} x$\n\n③ $\\cos^{-1}(-x) \\neq \\cos^{-1} x$\n\n④ $\\sin^{-1}(\\sin x) = x, \\quad -\\dfrac{\\pi}{2} \\leq x \\leq \\dfrac{\\pi}{2}$\n\n⑤ $\\sin(\\sin^{-1} x) = x, \\quad -1 \\leq x \\leq 1$\n\n⑥ $\\cos^{-1}(\\cos x) = x, \\quad 0 \\leq x \\leq \\pi$\n\n⑦ $\\cos(\\cos^{-1} x) = x, \\quad -1 \\leq x \\leq 1$\n\n⑧ $\\tan^{-1}(\\tan x) = x, \\quad -\\dfrac{\\pi}{2} < x < \\dfrac{\\pi}{2}$\n\n⑨ $\\tan(\\tan^{-1} x) = x, \\quad -\\infty < x < \\infty$\n\n⑩ $\\sin^{-1} x + \\cos^{-1} x = \\dfrac{\\pi}{2}$\n\n⑪ $\\tan^{-1} x + \\cot^{-1} x = \\dfrac{\\pi}{2}$\n\n⑫ $\\sec^{-1} x + \\csc^{-1} x = \\dfrac{\\pi}{2}$\n\n⑬ $\\cos^{-1}(x) + \\cos^{-1}(-x) = \\pi$",
@@ -716,7 +708,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 11
   },
   {
-    "id": "f0077",
+    "id": "f0076",
     "unit": "u06",
     "title": "(1) 쌍곡선함수의 정의",
     "contentMd": "① $\\sinh x = \\dfrac{e^x - e^{-x}}{2}$\n\n② $\\cosh x = \\dfrac{e^x + e^{-x}}{2}$\n\n③ $\\tanh x = \\dfrac{\\sinh x}{\\cosh x} = \\dfrac{e^x - e^{-x}}{e^x + e^{-x}} = \\dfrac{e^{2x} - 1}{e^{2x} + 1}$\n\n④ $\\operatorname{csch} x = \\dfrac{1}{\\sinh x} = \\dfrac{2}{e^x - e^{-x}}$\n\n⑤ $\\operatorname{sech} x = \\dfrac{1}{\\cosh x} = \\dfrac{2}{e^x + e^{-x}}$\n\n⑥ $\\coth x = \\dfrac{1}{\\tanh x} = \\dfrac{e^x + e^{-x}}{e^x - e^{-x}} = \\dfrac{e^{2x} + 1}{e^{2x} - 1}$",
@@ -724,7 +716,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0078",
+    "id": "f0077",
     "unit": "u06",
     "title": "(2) 쌍곡선함수 사이의 관계식",
     "contentMd": "① $\\cosh x + \\sinh x = e^x$\n\n② $\\cosh x - \\sinh x = e^{-x}$\n\n③ $\\cosh^2 x - \\sinh^2 x = 1$\n\n④ $1 - \\tanh^2 x = \\operatorname{sech}^2 x$\n\n⑤ $\\coth^2 x - 1 = \\operatorname{csch}^2 x$",
@@ -732,7 +724,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0079",
+    "id": "f0078",
     "unit": "u06",
     "title": "(3) 쌍곡선함수의 가법공식",
     "contentMd": "① $\\sinh(x + y) = \\sinh x \\cosh y + \\cosh x \\sinh y$\n\n② $\\sinh(x - y) = \\sinh x \\cosh y - \\cosh x \\sinh y$\n\n③ $\\cosh(x + y) = \\cosh x \\cosh y + \\sinh x \\sinh y$\n\n④ $\\cosh(x - y) = \\cosh x \\cosh y - \\sinh x \\sinh y$\n\n⑤ $\\tanh(x + y) = \\dfrac{\\tanh x + \\tanh y}{1 + \\tanh x \\tanh y}$\n\n⑥ $\\tanh(x - y) = \\dfrac{\\tanh x - \\tanh y}{1 - \\tanh x \\tanh y}$",
@@ -740,7 +732,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 3
   },
   {
-    "id": "f0080",
+    "id": "f0079",
     "unit": "u06",
     "title": "(4) 쌍곡선함수의 2배각 공식",
     "contentMd": "① $\\sinh 2x = 2 \\sinh x \\cosh x$\n\n② $\\cosh 2x = \\cosh^2 x + \\sinh^2 x = 2\\cosh^2 x - 1 = 1 + 2\\sinh^2 x$\n\n③ $\\tanh 2x = \\dfrac{2 \\tanh x}{1 + \\tanh^2 x}$",
@@ -748,7 +740,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 4
   },
   {
-    "id": "f0081",
+    "id": "f0080",
     "unit": "u06",
     "title": "(5) 쌍곡선함수의 반각공식",
     "contentMd": "① $\\sinh^2 x = \\dfrac{\\cosh 2x - 1}{2}$\n\n② $\\cosh^2 x = \\dfrac{\\cosh 2x + 1}{2}$\n\n③ $\\tanh^2 x = \\dfrac{\\cosh 2x - 1}{\\cosh 2x + 1}$",
@@ -756,7 +748,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 5
   },
   {
-    "id": "f0082",
+    "id": "f0081",
     "unit": "u06",
     "title": "(6) 역쌍곡선 함수",
     "contentMd": "① $\\sinh^{-1} x = \\ln(x + \\sqrt{x^2 + 1}), \\quad x \\in \\mathbb{R}$\n\n② $\\cosh^{-1} x = \\ln(x + \\sqrt{x^2 - 1}), \\quad x \\geq 1$\n\n③ $\\tanh^{-1} x = \\dfrac{1}{2}\\ln\\left(\\dfrac{1+x}{1-x}\\right), \\quad |x| < 1$\n\n④ $\\operatorname{csch}^{-1} x = \\sinh^{-1}\\dfrac{1}{x} = \\ln\\left(\\dfrac{1}{x} + \\sqrt{\\dfrac{1}{x^2} + 1}\\right), \\quad x \\neq 0$\n\n⑤ $\\operatorname{sech}^{-1} x = \\cosh^{-1}\\dfrac{1}{x} = \\ln\\left(\\dfrac{1}{x} + \\sqrt{\\dfrac{1}{x^2} - 1}\\right), \\quad 0 < x \\leq 1$\n\n⑥ $\\coth^{-1} x = \\tanh^{-1}\\dfrac{1}{x} = \\dfrac{1}{2}\\ln\\left(\\dfrac{x+1}{x-1}\\right), \\quad |x| > 1$",
@@ -764,7 +756,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 6
   },
   {
-    "id": "f0083",
+    "id": "f0082",
     "unit": "u07",
     "title": "미분계수와 도함수",
     "contentMd": "(1) $f'(a) = \\displaystyle\\lim_{b \\to a} \\dfrac{f(b) - f(a)}{b - a} = \\displaystyle\\lim_{h \\to 0} \\dfrac{f(a+h) - f(a)}{h}$\n\n- $x = a$에서 $f(x)$의 접선의 기울기 $= \\tan\\theta$\n- $x = a$에서 $f(x)$의 미분계수\n\n(2) 1계 도함수: $f'(x) = \\displaystyle\\lim_{h \\to 0} \\dfrac{f(x+h) - f(x)}{h}$\n\n표기법: $f'(x) = y' = \\dfrac{dy}{dx} = \\dfrac{df}{dx} = \\dfrac{d}{dx}f(x) = Df(x) = \\displaystyle\\lim_{\\Delta x \\to 0} \\dfrac{\\Delta y}{\\Delta x}$\n\n(3) 2계 도함수: $\\dfrac{d}{dx}\\left(\\dfrac{dy}{dx}\\right) = \\dfrac{d^2 y}{dx^2} = f''(x) = \\displaystyle\\lim_{h \\to 0}\\dfrac{f'(x+h) - f'(x)}{h}$\n\n(4) $n$계 도함수: $\\dfrac{d^n y}{dx^n} = f^{(n)}(x) = \\displaystyle\\lim_{h \\to 0}\\dfrac{f^{(n-1)}(x+h) - f^{(n-1)}(x)}{h}$\n\n(5) 곡선 $y = f(x)$ 위의 한 점 $(a, f(a))$에서 접선의 방정식: $y = f'(a)(x - a) + f(a)$",
@@ -772,7 +764,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0084",
+    "id": "f0083",
     "unit": "u07",
     "title": "(1) 연속함수",
     "contentMd": "$x = a$에서 함수 $f(x)$의 극한값과 함숫값이 같으면 $x = a$에서 $f(x)$는 연속이다.\n\n$$\\iff \\lim_{x \\to a} f(x) = f(a)$$",
@@ -780,7 +772,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0085",
+    "id": "f0084",
     "unit": "u07",
     "title": "(2) 미분가능성",
     "contentMd": "$x = a$에서 연속인 함수 $f(x)$의 미분계수 $f'(a)$가 존재하면, $f(x)$는 $x = a$에서 미분가능하다.",
@@ -788,7 +780,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 3
   },
   {
-    "id": "f0086",
+    "id": "f0085",
     "unit": "u07",
     "title": "(3) 조각적 함수의 미분가능성",
     "contentMd": "**①** $h(x) = \\begin{cases} g(x), & (x \\geq a) \\\\ f(x), & (x < a) \\end{cases}$가 (i) $g(a) = h(a)$, (ii) $g'(a) = h'(a)$를 만족하면 $x = a$에서 미분가능.\n\n도함수: $h'(x) = \\begin{cases} g'(x), & x \\geq a \\\\ h'(x), & x < a \\end{cases}$\n\n즉, $x = a$에서 두 그래프가 접하는 공통접선을 갖는 조건과 같다.\n\n**②** $f(x) = \\begin{cases} g(x), & x \\neq a \\\\ \\alpha, & x = a \\end{cases}$일 때, $f'(x) = \\begin{cases} g'(x), & x \\neq a \\\\ \\beta, & x = a \\end{cases}$\n\n단, $\\beta = f'(a) = \\displaystyle\\lim_{h \\to 0}\\dfrac{f(a+h) - f(a)}{h}$에 의해 계산되어야 한다.\n\nex) $f(x) = \\begin{cases} x^2 \\sin\\dfrac{1}{x}, & x \\neq 0 \\\\ 0, & x = 0 \\end{cases}$\n\n$f'(x) = \\begin{cases} 2x \\sin\\dfrac{1}{x} - \\cos\\dfrac{1}{x}, & x \\neq 0 \\\\ 0, & x = 0 \\end{cases}$",
@@ -796,7 +788,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 4
   },
   {
-    "id": "f0087",
+    "id": "f0086",
     "unit": "u07",
     "title": "(1) 기본적인 미분공식",
     "contentMd": "① $(C)' = 0$\n\n② $(x^n)' = nx^{n-1} \\quad (n \\in \\mathbb{R})$\n\n③ $\\{Cf(x)\\}' = Cf'(x)$\n\n④ $\\{f(x) \\pm g(x)\\}' = f'(x) \\pm g'(x)$\n\n⑤ $\\{f(x)g(x)\\}' = f'(x)g(x) + f(x)g'(x)$\n\n⑥ $\\left\\{\\dfrac{f(x)}{g(x)}\\right\\}' = \\dfrac{f'(x)g(x) - f(x)g'(x)}{\\{g(x)\\}^2}$",
@@ -804,7 +796,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 5
   },
   {
-    "id": "f0088",
+    "id": "f0087",
     "unit": "u07",
     "title": "(2) 삼각함수의 도함수",
     "contentMd": "① $\\dfrac{d}{dx}(\\sin x) = \\cos x$\n\n② $\\dfrac{d}{dx}(\\cos x) = -\\sin x$\n\n③ $\\dfrac{d}{dx}(\\tan x) = \\sec^2 x$\n\n④ $\\dfrac{d}{dx}(\\csc x) = -\\csc x \\cot x$\n\n⑤ $\\dfrac{d}{dx}(\\sec x) = \\sec x \\tan x$\n\n⑥ $\\dfrac{d}{dx}(\\cot x) = -\\csc^2 x$",
@@ -812,7 +804,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 6
   },
   {
-    "id": "f0089",
+    "id": "f0088",
     "unit": "u07",
     "title": "(3) 역삼각함수의 도함수",
     "contentMd": "① $\\dfrac{d}{dx}(\\sin^{-1} x) = \\dfrac{1}{\\sqrt{1 - x^2}}$\n\n② $\\dfrac{d}{dx}(\\cos^{-1} x) = \\dfrac{-1}{\\sqrt{1 - x^2}}$\n\n③ $\\dfrac{d}{dx}(\\tan^{-1} x) = \\dfrac{1}{1 + x^2}$\n\n④ $\\dfrac{d}{dx}(\\csc^{-1} x) = \\dfrac{-1}{|x|\\sqrt{x^2 - 1}}$\n\n⑤ $\\dfrac{d}{dx}(\\sec^{-1} x) = \\dfrac{1}{|x|\\sqrt{x^2 - 1}}$\n\n⑥ $\\dfrac{d}{dx}(\\cot^{-1} x) = \\dfrac{-1}{1 + x^2}$\n\n> ※ 암기 Tip: $\\sin^{-1} x + \\cos^{-1} x = \\dfrac{\\pi}{2}$ 을 미분하면 $(\\cos^{-1} x)' = -(\\sin^{-1} x)'$",
@@ -820,7 +812,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 7
   },
   {
-    "id": "f0090",
+    "id": "f0089",
     "unit": "u07",
     "title": "(4) 쌍곡선함수의 도함수",
     "contentMd": "① $\\dfrac{d}{dx}(\\sinh x) = \\cosh x$\n\n② $\\dfrac{d}{dx}(\\cosh x) = \\sinh x$\n\n③ $\\dfrac{d}{dx}(\\tanh x) = \\operatorname{sech}^2 x$\n\n④ $\\dfrac{d}{dx}(\\operatorname{csch} x) = -\\operatorname{csch} x \\coth x$\n\n⑤ $\\dfrac{d}{dx}(\\operatorname{sech} x) = -\\operatorname{sech} x \\tanh x$\n\n⑥ $\\dfrac{d}{dx}(\\coth x) = -\\operatorname{csch}^2 x$",
@@ -828,7 +820,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 8
   },
   {
-    "id": "f0091",
+    "id": "f0090",
     "unit": "u07",
     "title": "(5) 역쌍곡선함수의 도함수",
     "contentMd": "① $\\dfrac{d}{dx}(\\sinh^{-1} x) = \\dfrac{1}{\\sqrt{x^2 + 1}}$\n\n② $\\dfrac{d}{dx}(\\cosh^{-1} x) = \\dfrac{1}{\\sqrt{x^2 - 1}}$\n\n③ $\\dfrac{d}{dx}(\\tanh^{-1} x) = \\dfrac{1}{1 - x^2}$\n\n④ $\\dfrac{d}{dx}(\\operatorname{csch}^{-1} x) = \\dfrac{-1}{|x|\\sqrt{x^2 + 1}}$\n\n⑤ $\\dfrac{d}{dx}(\\operatorname{sech}^{-1} x) = \\dfrac{-1}{|x|\\sqrt{1 - x^2}}$\n\n⑥ $\\dfrac{d}{dx}(\\coth^{-1} x) = \\dfrac{1}{1 - x^2}$",
@@ -836,7 +828,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 9
   },
   {
-    "id": "f0092",
+    "id": "f0091",
     "unit": "u07",
     "title": "(6) 지수함수 & 로그함수의 도함수 $(e \\approx 2.718)$",
     "contentMd": "① $\\dfrac{d}{dx}(a^x) = a^x \\ln a$\n\n② $\\dfrac{d}{dx}(e^x) = e^x$\n\n③ $\\dfrac{d}{dx}(\\log_a x) = \\dfrac{1}{x \\ln a}$\n\n④ $\\dfrac{d}{dx}(\\ln x) = \\dfrac{1}{x}$",
@@ -844,7 +836,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 10
   },
   {
-    "id": "f0093",
+    "id": "f0092",
     "unit": "u07",
     "title": "(1) 합성함수 미분법",
     "contentMd": "$F(x) = f(g(x))$일 때,\n\n① 프라임 기호: $F'(x) = f'(g(x))g'(x), \\quad \\{f(\\star)\\}' = f'(\\star) \\cdot \\star'$\n\n② 라이프니츠 기호: $\\dfrac{dy}{dx} = \\dfrac{dy}{du} \\cdot \\dfrac{du}{dx}$\n\n③ 합성함수의 공식 ($\\star = g(x)$일 때)\n\n| 원함수 | 도함수 | 원함수 | 도함수 |\n|---|---|---|---|\n| $y = \\star^n$ | $y' = n\\star^{n-1} \\cdot \\star'$ | $y = a^\\star$ | $y' = a^\\star \\ln a \\cdot \\star'$ |\n| $y = \\dfrac{1}{\\star}$ | $y' = \\dfrac{-1}{\\star^2} \\cdot \\star'$ | $y = e^\\star$ | $y' = e^\\star \\cdot \\star'$ |\n| $y = \\sqrt{\\star}$ | $y' = \\dfrac{1}{2\\sqrt{\\star}} \\cdot \\star'$ | $y = \\ln \\star$ | $y' = \\dfrac{1}{\\star} \\cdot \\star'$ |\n| $y = \\sin\\star$ | $y' = \\cos\\star \\cdot \\star'$ | $y = \\sin^{-1}\\star$ | $y' = \\dfrac{1}{\\sqrt{1 - \\star^2}} \\cdot \\star'$ |\n| $y = \\cos\\star$ | $y' = -\\sin\\star \\cdot \\star'$ | $y = \\cos^{-1}\\star$ | $y' = \\dfrac{-1}{\\sqrt{1 - \\star^2}} \\cdot \\star'$ |\n| $y = \\tan\\star$ | $y' = \\sec^2\\star \\cdot \\star'$ | $y = \\tan^{-1}\\star$ | $y' = \\dfrac{1}{1 + \\star^2} \\cdot \\star'$ |\n| $y = \\sinh\\star$ | $y' = \\cosh\\star \\cdot \\star'$ | $y = \\sinh^{-1}\\star$ | $y' = \\dfrac{1}{\\sqrt{\\star^2 + 1}} \\cdot \\star'$ |\n| $y = \\cosh\\star$ | $y' = \\sinh\\star \\cdot \\star'$ | $y = \\cosh^{-1}\\star$ | $y' = \\dfrac{1}{\\sqrt{\\star^2 - 1}} \\cdot \\star'$ |\n| $y = \\tanh\\star$ | $y' = \\operatorname{sech}^2\\star \\cdot \\star'$ | $y = \\tanh^{-1}\\star$ | $y' = \\dfrac{1}{1 - \\star^2} \\cdot \\star'$ |",
@@ -852,7 +844,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 11
   },
   {
-    "id": "f0094",
+    "id": "f0093",
     "unit": "u07",
     "title": "(2) 역함수 미분법",
     "contentMd": "① $g'(f(x)) = \\dfrac{1}{f'(x)}$\n\n② $g''(f(x)) = \\dfrac{-f''(x)}{\\{f'(x)\\}^3}$",
@@ -860,7 +852,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 12
   },
   {
-    "id": "f0095",
+    "id": "f0094",
     "unit": "u07",
     "title": "(3) 음함수 미분법",
     "contentMd": "① $f(x, y) = C$일 때, $\\dfrac{dy}{dx} = -\\dfrac{f_x}{f_y}$\n\n$$\\dfrac{d^2 y}{dx^2} = -\\dfrac{f_{xx}(f_y)^2 + f_{yy}(f_x)^2 - 2f_{xy}(f_x)(f_y)}{(f_y)^3}$$\n\n② $f(x, y, z) = C$일 때, $\\dfrac{\\partial z}{\\partial x} = -\\dfrac{f_x}{f_z}, \\quad \\dfrac{\\partial z}{\\partial y} = -\\dfrac{f_y}{f_z}, \\quad \\dfrac{\\partial y}{\\partial x} = -\\dfrac{f_x}{f_y}$",
@@ -868,7 +860,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 13
   },
   {
-    "id": "f0096",
+    "id": "f0095",
     "unit": "u07",
     "title": "(4) 매개변수 함수 미분법",
     "contentMd": "$\\begin{cases} x = f(t) \\\\ y = g(t) \\end{cases}$\n\n① $\\dfrac{dy}{dx} = \\dfrac{y'}{x'} = \\dfrac{g'(t)}{f'(t)}$\n\n② $\\dfrac{d^2 y}{dx^2} = \\dfrac{x'y'' - x''y'}{(x')^3}$",
@@ -876,7 +868,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 14
   },
   {
-    "id": "f0097",
+    "id": "f0096",
     "unit": "u07",
     "title": "(5) 극곡선 $r = f(\\theta)$의 미분",
     "contentMd": "$$\\dfrac{dy}{dx} = \\dfrac{f'(\\theta)\\sin\\theta + f(\\theta)\\cos\\theta}{f'(\\theta)\\cos\\theta - f(\\theta)\\sin\\theta}$$",
@@ -884,7 +876,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 15
   },
   {
-    "id": "f0098",
+    "id": "f0097",
     "unit": "u07",
     "title": "(6) $f(x)^{g(x)}$의 미분법",
     "contentMd": "$y = e^{g(x)\\ln f(x)}$로 변환 후 합성함수 미분:\n\n$$y' = e^{g(x) \\ln f(x)} \\cdot \\left(g'(x)\\ln f(x) + g(x)\\dfrac{f'(x)}{f(x)}\\right)$$",
@@ -892,7 +884,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 16
   },
   {
-    "id": "f0099",
+    "id": "f0098",
     "unit": "u07",
     "title": "(7) 로그 미분법",
     "contentMd": "$$\\ln y = \\ln f(x) \\Rightarrow \\dfrac{1}{y}\\dfrac{dy}{dx} = \\dfrac{f'(x)}{f(x)} \\Rightarrow \\dfrac{dy}{dx} = y \\cdot \\dfrac{f'(x)}{f(x)}$$",
@@ -900,7 +892,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 17
   },
   {
-    "id": "f0100",
+    "id": "f0099",
     "unit": "u07",
     "title": "(8) 라이프니츠(Leibniz) 정리",
     "contentMd": "$$(fg)^{(n)} = \\sum_{r=0}^{n} {}_n C_r f^{(n-r)} g^{(r)}$$\n\nex1) $(fg)^{(2)} = f''g + 2f'g' + fg''$\n\nex2) $(fg)^{(3)} = f'''g + 3f''g' + 3f'g'' + fg'''$",
@@ -908,7 +900,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 18
   },
   {
-    "id": "f0101",
+    "id": "f0100",
     "unit": "u07",
     "title": "(9) 정적분의 미분",
     "contentMd": "① $\\dfrac{d}{dx}\\displaystyle\\int_{a}^{x} f(t)\\,dt = f(x)$\n\n② $\\dfrac{d}{dx}\\displaystyle\\int_{x}^{x+a} f(t)\\,dt = f(x+a) - f(x)$\n\n③ $\\dfrac{d}{dx}\\displaystyle\\int_{f(x)}^{g(x)} h(t)\\,dt = h(g(x))g'(x) - h(f(x))f'(x)$\n\n④ $\\dfrac{d}{dx}\\displaystyle\\int_{a}^{x} (x - t)f(t)\\,dt = \\displaystyle\\int_{a}^{x} f(t)\\,dt$",
@@ -916,7 +908,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 19
   },
   {
-    "id": "f0102",
+    "id": "f0101",
     "unit": "u08",
     "title": "(1) 로피탈 정리 (L'Hopital's theorem)",
     "contentMd": "두 함수 $f(x), g(x)$가 $x = a$의 근방에서 미분가능하고 $f(a) = g(a) = 0$, $g'(x) \\neq 0$일 때, $\\displaystyle\\lim_{x \\to a}\\dfrac{f'(x)}{g'(x)}$가 존재하면\n\n$$\\lim_{x \\to a}\\dfrac{f(x)}{g(x)} = \\lim_{x \\to a}\\dfrac{f'(x)}{g'(x)}$$\n\n① $\\dfrac{0}{0}, \\dfrac{\\infty}{\\infty}$ 형태는 로피탈 정리 활용\n\n② $\\infty - \\infty, \\infty \\times 0$ 형태는 식 변형 후 로피탈\n\n③ $0^0, \\infty^0, 1^\\infty$ 부정형: $[f(x)]^{g(x)} = e^{g(x) \\ln f(x)}$로 변환\n\n$$\\lim_{x \\to a}[f(x)]^{g(x)} = e^{\\displaystyle\\lim_{x \\to a} g(x) \\ln[f(x)]}$$",
@@ -924,7 +916,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0103",
+    "id": "f0102",
     "unit": "u08",
     "title": "(2) 정적분의 극한",
     "contentMd": "$\\displaystyle\\lim_{x \\to a}\\dfrac{\\displaystyle\\int_{f(x)}^{g(x)} h(t)\\,dt}{I(x)}$의 극한: $\\dfrac{0}{0}, \\dfrac{\\infty}{\\infty}$ 꼴에서 로피탈 + 정적분의 미분 공식 활용",
@@ -932,7 +924,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0104",
+    "id": "f0103",
     "unit": "u08",
     "title": "(3) 극한의 성질",
     "contentMd": "$\\displaystyle\\lim_{x \\to a} f(x) = \\alpha, \\displaystyle\\lim_{x \\to a} g(x) = \\beta$를 가질 때:\n\n① $\\displaystyle\\lim\\{f(x) \\pm g(x)\\} = \\alpha \\pm \\beta$\n\n② $\\displaystyle\\lim f(x)g(x) = \\alpha \\beta$\n\n③ $\\displaystyle\\lim Cf(x) = C\\alpha$ ($C$는 상수)\n\n④ $\\displaystyle\\lim\\dfrac{f(x)}{g(x)} = \\dfrac{\\alpha}{\\beta} \\ (\\beta \\neq 0)$\n\n⑤ $\\displaystyle\\lim\\{(f(x))^n\\} = \\alpha^n$ ($n$은 양의 정수)\n\n⑥ $\\displaystyle\\lim\\sqrt[n]{f(x)} = \\sqrt[n]{\\alpha}$ ($n$은 양의 정수)",
@@ -940,7 +932,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 3
   },
   {
-    "id": "f0105",
+    "id": "f0104",
     "unit": "u08",
     "title": "(4) 스퀴즈 정리",
     "contentMd": "$x$가 $a$의 근방에서 $f(x) \\leq g(x) \\leq h(x)$이고, $\\displaystyle\\lim_{x \\to a} f(x) = \\displaystyle\\lim_{x \\to a} h(x) = L$이면 $\\displaystyle\\lim_{x \\to a} g(x) = L$\n\nex) $\\displaystyle\\lim_{x \\to 0} x \\sin\\left(\\dfrac{1}{x}\\right) = 0$ ($0 \\times$ 진동 $= 0$)",
@@ -948,7 +940,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 4
   },
   {
-    "id": "f0106",
+    "id": "f0105",
     "unit": "u08",
     "title": "(5) 매클로린급수를 이용",
     "contentMd": "$\\displaystyle\\lim_{x \\to 0}\\dfrac{f(x)}{g(x)}$: 분모와 분자의 가장 낮은 차수가 같으면 가장 낮은 차수의 계수가 극한값과 같다.",
@@ -956,7 +948,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 5
   },
   {
-    "id": "f0107",
+    "id": "f0106",
     "unit": "u08",
     "title": "(6) 꼭 외워야 하는 극한값",
     "contentMd": "① $p > 0$이면, $\\displaystyle\\lim_{x \\to 0^+} x^p \\ln x = 0$\n\n② $\\displaystyle\\lim_{x \\to \\infty}\\left(1 + \\dfrac{a}{x}\\right)^x = e^a$, $\\quad \\displaystyle\\lim_{x \\to 0}(1 + ax)^{\\frac{1}{x}} = e^a$\n\n③ $\\displaystyle\\lim_{x \\to \\infty}\\left(1 + \\dfrac{a}{x+b}\\right)^x = e^a$\n\n④ 매클로린급수 활용 예:\n\n$$\\lim_{x \\to 0}\\dfrac{\\sin 4x\\left(e^x - \\sin x - 1 - \\dfrac{1}{2}x^2 - \\dfrac{1}{3}x^3\\right)}{x^5} = \\lim_{x \\to 0}\\dfrac{\\sin 4x}{x} \\cdot \\lim_{x \\to 0}\\dfrac{e^x - \\sin x - 1 - \\dfrac{1}{2}x^2 - \\dfrac{1}{3}x^3}{x^4}$$",
@@ -964,7 +956,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 6
   },
   {
-    "id": "f0108",
+    "id": "f0107",
     "unit": "u09",
     "title": "미분의 기본 정리",
     "contentMd": "**(1) 중간값 정리**: $f$가 $[a, b]$에서 연속이고 $f(a) \\neq f(b)$일 때, $f(a)$와 $f(b)$ 사이의 임의의 값 $k$에 대해 $f(c) = k$인 $c \\in (a, b)$가 존재한다.\n\n**(2) 중간값의 따름 정리**: $f$가 $[a, b]$에서 연속이고 $f(a)f(b) < 0$일 때, $f(c) = 0$인 $c \\in (a, b)$가 존재한다.\n\n**(3) 롤(Rolle)의 정리**: $f$가 $[a, b]$에서 연속, $(a, b)$에서 미분가능, $f(a) = f(b)$이면 $f'(c) = 0$인 $c \\in (a, b)$가 존재한다.\n\n**(4) 미분의 평균값 정리**: $\\dfrac{f(b) - f(a)}{b - a} = f'(c)$인 $c \\in (a, b)$가 존재한다.",
@@ -972,7 +964,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0109",
+    "id": "f0108",
     "unit": "u09",
     "title": "Taylor 급수 전개",
     "contentMd": "$x = a$에서의 $f(x)$의 테일러급수:\n\n$$f(x) = f(a) + f'(a)(x - a) + \\dfrac{f'(a)}{2!}(x - a)^2 + \\cdots = \\sum_{n=0}^{\\infty}\\dfrac{f^{(n)}(a)}{n!}(x - a)^n$$\n\n※ 선형근사식 $L(x) \\approx f(a) + f'(a)(x - a)$: 테일러 급수의 1차 근사 다항식",
@@ -980,71 +972,63 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0110",
+    "id": "f0109",
     "unit": "u09",
     "title": "Maclaurin 급수 전개",
-    "contentMd": "$x = 0$에서의 $f(x)$의 테일러급수:\n\n$$f(x) = f(0) + f'(0)x + \\dfrac{f'(0)}{2!}x^2 + \\cdots = \\sum_{n=0}^{\\infty}\\dfrac{f^{(n)}(0)}{n!}x^n = \\sum_{n=0}^{\\infty} C_n x^n$$\n\n출제 유형:\n\n① $x^n$의 계수 $C_n = \\dfrac{f^{(n)}(0)}{n!}$\n\n② $f^{(n)}(0) = n! \\cdot C_n$\n\n③ 무한급수의 합\n\n④ 오차문제",
+    "contentMd": "$x = 0$에서의 $f(x)$의 테일러급수:\n\n$$f(x) = f(0) + f'(0)x + \\dfrac{f'(0)}{2!}x^2 + \\cdots = \\sum_{n=0}^{\\infty}\\dfrac{f^{(n)}(0)}{n!}x^n = \\sum_{n=0}^{\\infty} C_n x^n$$\n\n출제 유형:\n\n① $x^n$의 계수 $C_n = \\dfrac{f^{(n)}(0)}{n!}$\n\n② $f^{(n)}(0) = n! \\cdot C_n$\n\n③ 무한급수의 합\n\n④ 오차문제\n\n#### 주요 매클로린 급수 (1)~(15)\n\n1) $\\dfrac{1}{1 - x} = \\displaystyle\\sum_{n=0}^{\\infty} x^n \\quad (|x| < 1)$\n\n2) $\\dfrac{1}{1 + x} = \\displaystyle\\sum_{n=0}^{\\infty}(-1)^n x^n \\quad (|x| < 1)$\n\n3) $\\ln(1 + x) = \\displaystyle\\sum_{n=1}^{\\infty}(-1)^{n-1}\\dfrac{x^n}{n} \\quad (|x| < 1)$\n\n4) $-\\ln(1 - x) = \\displaystyle\\sum_{n=1}^{\\infty}\\dfrac{x^n}{n} \\quad (|x| < 1)$\n\n5) $\\tan^{-1} x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n+1}}{2n+1} \\quad (|x| < 1)$\n\n6) $\\sin x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n+1}}{(2n+1)!}$\n\n7) $\\cos x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n}}{(2n)!}$\n\n8) $e^x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{x^n}{n!}$\n\n9) $\\sinh x = x + \\dfrac{1}{3!}x^3 + \\dfrac{1}{5!}x^5 + \\dfrac{1}{7!}x^7 + \\cdots$\n\n10) $\\cosh x = 1 + \\dfrac{1}{2!}x^2 + \\dfrac{1}{4!}x^4 + \\cdots$\n\n11) $(1 + x)^p = 1 + px + \\dfrac{p(p-1)}{2!}x^2 + \\dfrac{p(p-1)(p-2)}{3!}x^3 + \\cdots$\n\n12) $\\tan x = x + \\dfrac{1}{3}x^3 + \\dfrac{2}{15}x^5 + \\cdots$\n\n13) $\\sin^{-1} x = x + \\dfrac{1}{2} \\cdot \\dfrac{1}{3}x^3 + \\dfrac{1 \\cdot 3}{2 \\cdot 4} \\cdot \\dfrac{1}{5}x^5 + \\cdots$\n\n14) $\\sinh^{-1} x = x - \\dfrac{1}{2} \\cdot \\dfrac{1}{3}x^3 + \\dfrac{1 \\cdot 3}{2 \\cdot 4} \\cdot \\dfrac{1}{5}x^5 - \\cdots$\n\n15) $\\tanh^{-1} x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{x^{2n+1}}{2n+1} \\quad (|x| < 1)$\n\n> ※ 무한급수 형태일 때 $n$의 시작점 꼭 확인하기!",
     "svg": null,
     "order": 3
   },
   {
-    "id": "f0111",
-    "unit": "u09",
-    "title": "주요 매클로린 급수 (1)~(15)",
-    "contentMd": "1) $\\dfrac{1}{1 - x} = \\displaystyle\\sum_{n=0}^{\\infty} x^n \\quad (|x| < 1)$\n\n2) $\\dfrac{1}{1 + x} = \\displaystyle\\sum_{n=0}^{\\infty}(-1)^n x^n \\quad (|x| < 1)$\n\n3) $\\ln(1 + x) = \\displaystyle\\sum_{n=1}^{\\infty}(-1)^{n-1}\\dfrac{x^n}{n} \\quad (|x| < 1)$\n\n4) $-\\ln(1 - x) = \\displaystyle\\sum_{n=1}^{\\infty}\\dfrac{x^n}{n} \\quad (|x| < 1)$\n\n5) $\\tan^{-1} x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n+1}}{2n+1} \\quad (|x| < 1)$\n\n6) $\\sin x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n+1}}{(2n+1)!}$\n\n7) $\\cos x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{(-1)^n x^{2n}}{(2n)!}$\n\n8) $e^x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{x^n}{n!}$\n\n9) $\\sinh x = x + \\dfrac{1}{3!}x^3 + \\dfrac{1}{5!}x^5 + \\dfrac{1}{7!}x^7 + \\cdots$\n\n10) $\\cosh x = 1 + \\dfrac{1}{2!}x^2 + \\dfrac{1}{4!}x^4 + \\cdots$\n\n11) $(1 + x)^p = 1 + px + \\dfrac{p(p-1)}{2!}x^2 + \\dfrac{p(p-1)(p-2)}{3!}x^3 + \\cdots$\n\n12) $\\tan x = x + \\dfrac{1}{3}x^3 + \\dfrac{2}{15}x^5 + \\cdots$\n\n13) $\\sin^{-1} x = x + \\dfrac{1}{2} \\cdot \\dfrac{1}{3}x^3 + \\dfrac{1 \\cdot 3}{2 \\cdot 4} \\cdot \\dfrac{1}{5}x^5 + \\cdots$\n\n14) $\\sinh^{-1} x = x - \\dfrac{1}{2} \\cdot \\dfrac{1}{3}x^3 + \\dfrac{1 \\cdot 3}{2 \\cdot 4} \\cdot \\dfrac{1}{5}x^5 - \\cdots$\n\n15) $\\tanh^{-1} x = \\displaystyle\\sum_{n=0}^{\\infty}\\dfrac{x^{2n+1}}{2n+1} \\quad (|x| < 1)$\n\n> ※ 무한급수 형태일 때 $n$의 시작점 꼭 확인하기!",
-    "svg": null,
-    "order": 4
-  },
-  {
-    "id": "f0112",
+    "id": "f0110",
     "unit": "u09",
     "title": "(1) 증가함수, 감소함수",
     "contentMd": "함수 $f(x)$가 구간 $I$에서 미분가능할 때, 모든 $x \\in I$에 대하여:\n\n① $f'(x) > 0$이면 $f$는 구간 $I$에서 증가함수\n\n② $f'(x) < 0$이면 $f$는 구간 $I$에서 감소함수\n\n③ $f'(x) \\geq 0$이면 $f$는 구간 $I$에서 단조증가함수\n\n④ $f'(x) \\leq 0$이면 $f$는 구간 $I$에서 단조감소함수\n\n⑤ 상수함수가 아닌 함수 $f$가 증가함수 $\\iff f'(x) \\geq 0$\n\n⑥ 상수함수가 아닌 함수 $f$가 감소함수 $\\iff f'(x) \\leq 0$",
     "svg": null,
-    "order": 5
+    "order": 4
   },
   {
-    "id": "f0113",
+    "id": "f0111",
     "unit": "u09",
     "title": "(2) 함수의 위로 볼록, 아래로 볼록",
     "contentMd": "함수 $f(x)$가 개구간 $I$에서 두 번 미분 가능할 때:\n\n① 개구간 $I$에서 $f''(x) > 0$일 때, $f(x)$는 아래로 볼록\n\n② 개구간 $I$에서 $f''(x) < 0$일 때, $f(x)$는 위로 볼록\n\n③ $c \\in I$에 대하여 $f''(c) = 0$이고, $x = c$의 좌우에서 $f''(x)$의 부호가 바뀌면 점 $(c, f(c))$는 변곡점이다.",
     "svg": null,
-    "order": 6
+    "order": 5
   },
   {
-    "id": "f0114",
+    "id": "f0112",
     "unit": "u09",
     "title": "(3) 함수의 극대 & 극소 — 1계 도함수 판정법",
     "contentMd": "함수 $f(x)$가 점 $a$에서 $f'(a) = 0$ 또는 $f'(a)$가 존재하지 않을 때:\n\n① $f'(x)$의 부호가 양에서 음으로 변하면 $x = a$에서 극대, $f(a)$는 극댓값\n\n② $f'(x)$의 부호가 음에서 양으로 변하면 $x = a$에서 극소, $f(a)$는 극솟값",
     "svg": null,
-    "order": 7
+    "order": 6
   },
   {
-    "id": "f0115",
+    "id": "f0113",
     "unit": "u09",
     "title": "(4) 함수의 극대 & 극소 — 2계 도함수 판정법",
     "contentMd": "$f(x)$가 연속인 도함수 $f'(x), f''(x)$를 갖는 구간의 한 점 $x = a$에서:\n\n① $f'(a) = 0$일 때, $f''(a) < 0$이면 $x = a$에서 극대\n\n② $f'(a) = 0$일 때, $f''(a) > 0$이면 $x = a$에서 극소",
     "svg": null,
-    "order": 8
+    "order": 7
   },
   {
-    "id": "f0116",
+    "id": "f0114",
     "unit": "u09",
     "title": "(5) $f(x), f'(x), f''(x)$의 관계성",
     "contentMd": "원함수 $f(x)$의 극값 위치는 $f'(x)$의 부호 변화 지점이고, 변곡점은 $f''(x)$의 부호 변화 지점이다.",
     "svg": null,
-    "order": 9
+    "order": 8
   },
   {
-    "id": "f0117",
+    "id": "f0115",
     "unit": "u09",
     "title": "곡률",
     "contentMd": "(1) 직교좌표계 $y = f(x)$일 때:\n\n$$\\kappa = \\dfrac{|y''|}{\\{1 + (y')^2\\}^{\\frac{3}{2}}}$$\n\n(2) 매개방정식 $\\begin{cases} x = f(t) \\\\ y = g(t) \\end{cases}$일 때:\n\n$$\\kappa = \\dfrac{|f'(t)g''(t) - g'(t)f''(t)|}{\\{[f'(t)]^2 + [g'(t)]^2\\}^{\\frac{3}{2}}}$$\n\n(3) 극좌표 $r = f(\\theta)$일 때:\n\n$$\\kappa = \\dfrac{|r^2 + 2(r')^2 - rr''|}{\\{r^2 + (r')^2\\}^{\\frac{3}{2}}}$$\n\n(4) 공간곡선(벡터함수) $\\vec{r}(t) = \\langle f(t), g(t), h(t)\\rangle$일 때:\n\n$$\\kappa = \\dfrac{|\\vec{r}'(t) \\times \\vec{r}''(t)|}{|\\vec{r}'(t)|^3}$$\n\n(5) 한 점 $P(x, y)$에서 곡률원\n\n① 곡률원의 반지름 $\\rho = \\dfrac{1}{\\kappa}$\n\n② 곡률원의 중심: $(X, Y) = \\left(x - \\dfrac{y'}{y''}\\left[1 + (y')^2\\right], \\ y + \\dfrac{1}{y''}\\left[1 + (y')^2\\right]\\right)$",
     "svg": null,
-    "order": 10
+    "order": 9
   },
   {
-    "id": "f0118",
+    "id": "f0116",
     "unit": "u10",
     "title": "적분 공식",
     "contentMd": "(1) $\\displaystyle\\int a\\,dx = ax + C$\n\n(2) $\\displaystyle\\int a f(x)\\,dx = a\\displaystyle\\int f(x)\\,dx + C$\n\n(3) $\\displaystyle\\int f(x) \\pm g(x)\\,dx = \\displaystyle\\int f(x)\\,dx \\pm \\displaystyle\\int g(x)\\,dx$\n\n(4) $\\displaystyle\\int x^n\\,dx = \\dfrac{1}{n+1}x^{n+1} + C \\quad (n \\neq -1)$\n\n(5) $\\displaystyle\\int e^x\\,dx = e^x + C$\n\n(6) $\\displaystyle\\int a^x\\,dx = \\dfrac{a^x}{\\ln a} + C$\n\n(7) $\\displaystyle\\int \\dfrac{1}{x}\\,dx = \\ln|x| + C$\n\n(8) $\\displaystyle\\int \\dfrac{f'(x)}{f(x)}\\,dx = \\ln|f(x)| + C$\n\n(9) $\\displaystyle\\int \\ln x\\,dx = x\\ln x - x + C$\n\n(10) $\\displaystyle\\int x^n \\ln x\\,dx = \\dfrac{1}{n+1}x^{n+1}\\ln x - \\dfrac{1}{(n+1)^2}x^{n+1} + C$\n\n(11) $\\displaystyle\\int \\dfrac{1}{x \\ln x}\\,dx = \\ln|\\ln x| + C$\n\n(12) $\\displaystyle\\int \\sin x\\,dx = -\\cos x + C$\n\n(13) $\\displaystyle\\int \\cos x\\,dx = \\sin x + C$\n\n(14) $\\displaystyle\\int \\sec x \\tan x\\,dx = \\sec x + C$\n\n(15) $\\displaystyle\\int \\csc x \\cot x\\,dx = -\\csc x + C$\n\n(16) $\\displaystyle\\int \\sec^2 x\\,dx = \\tan x + C$\n\n(17) $\\displaystyle\\int \\csc^2 x\\,dx = -\\cot x + C$\n\n(18) $\\displaystyle\\int \\csc x\\,dx = \\ln|\\csc x - \\cot x| + C$\n\n(19) $\\displaystyle\\int \\sec x\\,dx = \\ln|\\sec x + \\tan x| + C$\n\n(20) $\\displaystyle\\int \\tan x\\,dx = -\\ln|\\cos x| + C = \\ln|\\sec x| + C$\n\n(21) $\\displaystyle\\int \\cot x\\,dx = \\ln|\\sin x| + C$\n\n(22) $\\displaystyle\\int \\tan^2 x\\,dx = \\tan x - x + C$\n\n(23) $\\displaystyle\\int \\cot^2 x\\,dx = -\\cot x - x + C$\n\n(24) $\\displaystyle\\int \\sin^2 x\\,dx = \\dfrac{1}{2}\\left\\{x - \\dfrac{1}{2}\\sin 2x\\right\\} + C$\n\n(25) $\\displaystyle\\int \\cos^2 x\\,dx = \\dfrac{1}{2}\\left\\{x + \\dfrac{1}{2}\\sin 2x\\right\\} + C$\n\n(26) $\\displaystyle\\int \\sinh x\\,dx = \\cosh x + C$\n\n(27) $\\displaystyle\\int \\cosh x\\,dx = \\sinh x + C$\n\n(28) $\\displaystyle\\int \\operatorname{sech}^2 x\\,dx = \\tanh x + C$\n\n(29) $\\displaystyle\\int \\operatorname{csch}^2 x\\,dx = -\\coth x + C$\n\n(30) $\\displaystyle\\int \\tanh x\\,dx = \\ln|\\cosh x| + C$\n\n(31) $\\displaystyle\\int \\coth x\\,dx = \\ln|\\sinh x| + C$\n\n(32) $\\displaystyle\\int \\tanh^2 x\\,dx = x - \\tanh x + C$\n\n(33) $\\displaystyle\\int \\coth^2 x\\,dx = x - \\coth x + C$\n\n(34) $\\displaystyle\\int \\operatorname{sech} x \\tanh x\\,dx = -\\operatorname{sech} x + C$\n\n(35) $\\displaystyle\\int \\operatorname{csch} x \\coth x\\,dx = -\\operatorname{csch} x + C$\n\n(36) $\\displaystyle\\int \\dfrac{1}{1 + x^2}\\,dx = \\tan^{-1} x + C$\n\n(37) $\\displaystyle\\int \\dfrac{1}{x^2 + a^2}\\,dx = \\dfrac{1}{a}\\tan^{-1}\\dfrac{x}{a} + C$\n\n(38) $\\displaystyle\\int \\dfrac{1}{x^2 - a^2}\\,dx = \\dfrac{1}{2a}\\ln\\left|\\dfrac{x - a}{x + a}\\right| + C$\n\n(39) $\\displaystyle\\int \\dfrac{1}{\\sqrt{1 - x^2}}\\,dx = \\sin^{-1} x + C$\n\n(40) $\\displaystyle\\int \\dfrac{1}{\\sqrt{a^2 - x^2}}\\,dx = \\sin^{-1}\\dfrac{x}{a} + C$\n\n(41) $\\displaystyle\\int \\dfrac{1}{\\sqrt{x^2 + 1}}\\,dx = \\ln\\left|x + \\sqrt{x^2 + 1}\\right| + C = \\sinh^{-1} x + C$\n\n(42) $\\displaystyle\\int \\dfrac{1}{\\sqrt{x^2 + a^2}}\\,dx = \\ln\\left|\\dfrac{x + \\sqrt{x^2 + a^2}}{a}\\right| + C = \\sinh^{-1}\\dfrac{x}{a} + C$\n\n(43) $\\displaystyle\\int \\dfrac{1}{\\sqrt{x^2 - 1}}\\,dx = \\ln\\left|x + \\sqrt{x^2 - 1}\\right| + C = \\cosh^{-1} x + C$\n\n(44) $\\displaystyle\\int \\dfrac{1}{\\sqrt{x^2 - a^2}}\\,dx = \\ln\\left|\\dfrac{x + \\sqrt{x^2 - a^2}}{a}\\right| + C = \\cosh^{-1}\\dfrac{x}{a} + C$\n\n(45) $\\displaystyle\\int e^x \\sin x\\,dx = \\dfrac{e^x(\\sin x - \\cos x)}{2} + C$\n\n(46) $\\displaystyle\\int e^x \\cos x\\,dx = \\dfrac{e^x(\\sin x + \\cos x)}{2} + C$\n\n(47) $\\displaystyle\\int e^{ax} \\sin bx\\,dx = \\dfrac{e^{ax}(a\\sin bx - b\\cos bx)}{a^2 + b^2} + C$\n\n(48) $\\displaystyle\\int e^{ax} \\cos bx\\,dx = \\dfrac{e^{ax}(a\\cos bx + b\\sin bx)}{a^2 + b^2} + C$\n\n(49) $\\displaystyle\\int \\sec x\\,dx = \\ln|\\sec x + \\tan x| + C$\n\n(50) $\\displaystyle\\int \\sec^2 x\\,dx = \\tan x + C$\n\n(51) $\\displaystyle\\int \\sec^3 x\\,dx = \\dfrac{1}{2}\\{\\sec x \\tan x + \\ln|\\sec x + \\tan x|\\} + C$\n\n(52) $\\displaystyle\\int \\tan^2 x\\,dx = \\tan x - x + C$\n\n(53) $\\displaystyle\\int \\tan^3 x\\,dx = \\dfrac{1}{2}\\tan^2 x + \\ln|\\cos x| + C$\n\n(54) $\\displaystyle\\int \\tan^4 x\\,dx = \\dfrac{\\tan^3 x}{3} - \\tan x + x + C$\n\n(55) $\\displaystyle\\int \\tan^n x\\,dx = \\dfrac{\\tan^{n-1} x}{n-1} - \\displaystyle\\int \\tan^{n-2} x\\,dx + C$\n\n(56) $\\displaystyle\\int \\sin^n x\\,dx = -\\dfrac{1}{n}\\sin^{n-1} x \\cos x + \\dfrac{n-1}{n}\\displaystyle\\int \\sin^{n-2} x\\,dx + C$\n\n> 필기: $\\displaystyle\\int \\cos^n x\\,dx = \\dfrac{1}{n}\\cos^{n-1} x \\sin x + \\dfrac{n-1}{n}\\displaystyle\\int \\cos^{n-2} x\\,dx$",
@@ -1052,7 +1036,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0119",
+    "id": "f0117",
     "unit": "u11",
     "title": "(1) 적분의 성질",
     "contentMd": "① $\\displaystyle\\int_{a}^{a} f(x)\\,dx = 0$\n\n② $\\displaystyle\\int_{a}^{b} (f(x) \\pm g(x))\\,dx = \\displaystyle\\int_{a}^{b} f(x)\\,dx \\pm \\displaystyle\\int_{a}^{b} g(x)\\,dx$\n\n③ $\\displaystyle\\int_{a}^{b} cf(x)\\,dx = c\\displaystyle\\int_{a}^{b} f(x)\\,dx$\n\n④ $\\displaystyle\\int_{a}^{b} f(x)\\,dx = -\\displaystyle\\int_{b}^{a} f(x)\\,dx$\n\n⑤ $\\displaystyle\\int_{a}^{b} f(x)\\,dx = \\displaystyle\\int_{a}^{c} f(x)\\,dx + \\displaystyle\\int_{c}^{b} f(x)\\,dx$\n\n⑥ $f(x)$가 기함수일 때: $\\displaystyle\\int_{-a}^{a} f(x)\\,dx = 0$\n\n⑦ $f(x)$가 우함수일 때: $\\displaystyle\\int_{-a}^{a} f(x)\\,dx = 2\\displaystyle\\int_{0}^{a} f(x)\\,dx$",
@@ -1060,7 +1044,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0120",
+    "id": "f0118",
     "unit": "u11",
     "title": "(2) 적분의 평균값 정리",
     "contentMd": "폐구간 $[a, b]$에서 연속인 $f(x)$에 대하여:\n\n$$\\int_{a}^{b} f(x)\\,dx = (b - a)f(c) \\text{ 인 } c \\in (a, b) \\text{가 적어도 하나 존재한다.}$$\n\n$$\\Rightarrow \\dfrac{1}{b - a}\\int_{a}^{b} f(x)\\,dx = f(c)$$\n\n여기서 $f(c)$를 $f(x)$의 평균값이라 한다.",
@@ -1068,7 +1052,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0121",
+    "id": "f0119",
     "unit": "u11",
     "title": "Wallis 공식",
     "contentMd": "$$\\int_{0}^{\\frac{\\pi}{2}} \\sin^n x\\,dx = \\int_{0}^{\\frac{\\pi}{2}} \\cos^n x\\,dx = \\begin{cases} n: \\text{짝수} \\Rightarrow \\dfrac{n-1}{n} \\cdot \\dfrac{n-3}{n-2} \\cdots \\dfrac{1}{2} \\cdot \\dfrac{\\pi}{2} \\\\ n: \\text{홀수} \\Rightarrow \\dfrac{n-1}{n} \\cdot \\dfrac{n-3}{n-2} \\cdots \\dfrac{2}{3} \\cdot 1 \\end{cases}$$\n\n> ※ 범위가 $0$부터 $\\dfrac{\\pi}{2} \\times n$까지 확장되어도 월리스공식 사용가능\n\n**$y = \\sin^n x$의 그래프**\n\n**$y = \\cos^n x$의 그래프**",
@@ -1076,7 +1060,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 3
   },
   {
-    "id": "f0122",
+    "id": "f0120",
     "unit": "u11",
     "title": "Wallis 공식 (그래프 2)",
     "contentMd": "",
@@ -1084,7 +1068,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 4
   },
   {
-    "id": "f0123",
+    "id": "f0121",
     "unit": "u12",
     "title": "(1) 무한구간에서 수렴하기 위한 조건",
     "contentMd": "$\\displaystyle\\int_{a}^{\\infty} \\dfrac{1}{x^p}\\,dx, \\ \\displaystyle\\int_{a}^{\\infty} \\dfrac{1}{x(\\ln x)^p}\\,dx, \\ \\displaystyle\\int_{a}^{\\infty} \\dfrac{\\ln x}{x^p}\\,dx$가 수렴하기 위한 조건은 $p > 1$이다.\n\n(단, $a > 0$이고 적분 구간에서 피적분함수 $f(x)$는 $f(x) > 0$이고 연속이다.)",
@@ -1092,7 +1076,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0124",
+    "id": "f0122",
     "unit": "u12",
     "title": "(2) 불연속함수의 수렴하기 위한 조건",
     "contentMd": "$\\displaystyle\\int_{0}^{a} \\dfrac{1}{x^p}\\,dx, \\ \\displaystyle\\int_{a}^{b} \\dfrac{1}{(x - c)^p}\\,dx, \\ \\displaystyle\\int_{0}^{a} \\dfrac{\\ln x}{x^p}\\,dx$가 수렴하기 위한 조건은 $p < 1$이다.",
@@ -1100,7 +1084,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0125",
+    "id": "f0123",
     "unit": "u12",
     "title": "(3) 감마함수",
     "contentMd": "① $\\Gamma(n+1) = \\displaystyle\\int_{0}^{\\infty} x^n e^{-x}\\,dx$\n\n② $\\Gamma(n+1) = n\\Gamma(n)$\n\n③ $\\Gamma(n+1) = n!$ (단, $n = 0, 1, 2, 3, \\cdots$)\n\n④ $\\Gamma\\left(\\dfrac{1}{2}\\right) = \\sqrt{\\pi}, \\quad \\Gamma\\left(\\dfrac{3}{2}\\right) = \\dfrac{1}{2}\\Gamma\\left(\\dfrac{1}{2}\\right) = \\dfrac{\\sqrt{\\pi}}{2}$\n\n⑤ $\\displaystyle\\int_{0}^{1} (-\\ln t)^n\\,dt = n!$ ($-\\ln t = x$ 치환해서 감마함수로 바꾼다.)",
@@ -1108,7 +1092,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 3
   },
   {
-    "id": "f0126",
+    "id": "f0124",
     "unit": "u12",
     "title": "(4) 암기 할 이상적분의 값",
     "contentMd": "① $\\displaystyle\\int_{0}^{\\infty} e^{-x^2}\\,dx = \\dfrac{\\sqrt{\\pi}}{2}$\n\n② $\\displaystyle\\int_{-\\infty}^{\\infty} e^{-x^2}\\,dx = \\sqrt{\\pi}$\n\n③ $\\displaystyle\\int_{0}^{\\infty}\\int_{0}^{\\infty} e^{-x^2 - y^2}\\,dy\\,dx = \\left(\\displaystyle\\int_{0}^{\\infty} e^{-x^2}\\,dx\\right)^2 = \\dfrac{\\pi}{4}$\n\n④ $\\displaystyle\\int_{-\\infty}^{\\infty}\\int_{-\\infty}^{\\infty} e^{-x^2 - y^2}\\,dy\\,dx = \\left(\\displaystyle\\int_{-\\infty}^{\\infty} e^{-x^2}\\,dx\\right)^2 = \\pi$\n\n⑤ $\\displaystyle\\int_{0}^{\\infty}\\dfrac{e^{-x}}{\\sqrt{x}}\\,dx = \\sqrt{\\pi}$\n\n⑥ $\\displaystyle\\int_{0}^{\\infty} \\sqrt{x}\\, e^{-x}\\,dx = \\dfrac{\\sqrt{\\pi}}{2}$\n\n⑦ $\\displaystyle\\int_{0}^{\\infty} x^2 e^{-x^2}\\,dx = \\dfrac{\\sqrt{\\pi}}{4}$\n\n⑧ $\\displaystyle\\int_{0}^{\\infty} e^{-kx^2}\\,dx = \\dfrac{1}{\\sqrt{k}} \\cdot \\dfrac{\\sqrt{\\pi}}{2}$",
@@ -1116,7 +1100,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 4
   },
   {
-    "id": "f0127",
+    "id": "f0125",
     "unit": "u13",
     "title": "(1) 직교좌표와 극좌표의 관계식",
     "contentMd": "① $\\begin{cases} x = r\\cos\\theta \\\\ y = r\\sin\\theta \\end{cases} \\Rightarrow \\begin{cases} r = \\sqrt{x^2 + y^2} \\\\ \\tan\\theta = \\dfrac{y}{x} \\end{cases}$\n\n② $(r, \\theta) = ((-1)^n r, \\ n\\pi + \\theta)$\n\n③ $f(r, \\theta) = 0 \\iff f((-1)^n r, \\ \\theta + n\\pi) = 0$",
@@ -1124,7 +1108,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 1
   },
   {
-    "id": "f0128",
+    "id": "f0126",
     "unit": "u13",
     "title": "(2) $r = f(\\theta)$ 접선의 기울기",
     "contentMd": "매개함수 미분법으로 구한다.\n\n$\\begin{cases} x = r\\cos\\theta = f(\\theta)\\cos\\theta \\\\ y = r\\sin\\theta = f(\\theta)\\sin\\theta \\end{cases}$ 로 나타내고,\n\n접선의 기울기 $= \\tan\\alpha = \\dfrac{dy}{dx} = \\dfrac{y'}{x'}$",
@@ -1132,7 +1116,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 2
   },
   {
-    "id": "f0129",
+    "id": "f0127",
     "unit": "u13",
     "title": "(3) $r = f(\\theta)$의 동경벡터와 접선의 사잇각 $\\psi$",
     "contentMd": "$$\\tan\\psi = \\dfrac{r}{\\dfrac{dr}{d\\theta}} = \\dfrac{r}{r'} \\quad (\\theta\\text{값 대입})$$",
@@ -1140,7 +1124,7 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 3
   },
   {
-    "id": "f0130",
+    "id": "f0128",
     "unit": "u13",
     "title": "(4) 두 곡선 사이의 교각 (예각)",
     "contentMd": "① 동경벡터와 $r_1$의 접선의 사잇각 $\\phi_1$일 때: $\\tan(\\phi_1) = \\dfrac{r_1}{r_1'}$\n\n② 동경벡터와 $r_2$의 접선의 사잇각 $\\phi_2$일 때: $\\tan(\\phi_2) = \\dfrac{r_2}{r_2'}$\n\n③ $r_1$과 $r_2$의 사잇각 $\\phi = \\phi_1 - \\phi_2$\n\n④ $\\phi$가 예각일 때:\n\n$$\\tan\\phi = |\\tan(\\phi_1 - \\phi_2)| = \\left|\\dfrac{\\tan\\phi_1 - \\tan\\phi_2}{1 + \\tan\\phi_1 \\tan\\phi_2}\\right|$$",
@@ -1148,75 +1132,43 @@ export const CALCULUS_FORMULAS: GeneratedFormula[] = [
     "order": 4
   },
   {
-    "id": "f0131",
+    "id": "f0129",
     "unit": "u14",
-    "title": "면적",
-    "contentMd": "① $x$축과 그래프 $y = f(x)$로 둘러싸인 영역의 넓이:\n\n$$A = \\int_{a}^{b} |f(x)|\\,dx$$\n\n② 두 그래프 $y = f(x), y = g(x)$로 둘러싸인 영역의 넓이:\n\n$$A = \\int_{a}^{b} |f(x) - g(x)|\\,dx$$",
+    "title": "(1) 직교좌표계",
+    "contentMd": "$y = f(x) \\ (a \\le x \\le b)$ 또는 $x = f^{-1}(y) \\ (c \\le y \\le d)$\n\n#### 면적\n\n① $x$축과 그래프 $y = f(x)$로 둘러싸인 영역의 넓이\n\n$$A = \\int_a^b |f(x)| \\, dx$$\n\n② 두 그래프 $y = f(x), \\ y = g(x)$로 둘러싸인 영역의 넓이\n\n$$A = \\int_a^b |f(x) - g(x)| \\, dx$$\n\n#### 곡선의 길이\n\n$$L = \\int_a^b \\sqrt{1 + (y')^2} \\, dx \\quad \\text{또는} \\quad L = \\int_c^d \\sqrt{1 + (x')^2} \\, dy$$\n\n#### $x$축 회전체의 부피\n\n① $x$축과 곡선 $f(x)$와 둘러싸인 영역의 $x$축으로 회전한 회전체의 부피\n\n$$V_{x\\text{축}} = \\pi \\int_a^b |y|^2 \\, dx = \\pi \\int_a^b |f(x)|^2 \\, dx$$\n\n② $y = L$축과 곡선 $f(x)$와 둘러싸인 영역을 $y = L$축으로 회전한 회전체의 부피\n\n$$V_{y = L} = \\pi \\int_a^b |f(x) - L|^2 \\, dx$$\n\n③ $y = f(x), \\ y = g(x)$로 둘러싸인 영역의 $x$축 회전체의 부피\n\n$$V_{x\\text{축}} = \\pi \\int_a^b |f(x)|^2 - |g(x)|^2 \\, dx$$\n\n④ $y = f(x), \\ y = g(x)$로 둘러싸인 영역의 $y = L$축으로 회전한 회전체의 부피\n\n$$V_{y = L} = \\pi \\int_a^b |f(x) - L|^2 - |g(x) - L|^2 \\, dx$$\n\n#### $y$축 회전체의 부피\n\n① $x$축과 곡선 $f(x)$와 둘러싸인 영역의 $y$축으로 회전한 회전체의 부피\n\n$$V_y = 2\\pi \\int_a^b |x| \\, |f(x)| \\, dx$$\n\n② $x$축과 곡선 $f(x)$와 둘러싸인 영역의 $x = L$축으로 회전한 회전체의 부피\n\n$$V_{x = L} = 2\\pi \\int_a^b |x - L| \\, |f(x)| \\, dx$$\n\n③ $y = f(x), \\ y = g(x)$로 둘러싸인 영역의 $y$축으로 회전한 회전체의 부피\n\n$$V_y = 2\\pi \\int_a^b |x| \\, |f(x) - g(x)| \\, dx$$\n\n④ $y = f(x), \\ y = g(x)$로 둘러싸인 영역의 $x = L$축으로 회전한 회전체의 부피\n\n$$V_{x = L} = 2\\pi \\int_a^b |x - L| \\, |f(x) - g(x)| \\, dx$$\n\n#### 회전체의 표면적\n\n**▸ $x$축 계열**\n\n① $x$축으로 회전할 때, 입체의 표면적\n\n$$S_x = 2\\pi \\int_a^b |y| \\sqrt{1 + (y')^2} \\, dx = 2\\pi \\int |y| \\cdot \\text{호의 길이}$$\n\n② 직선 $y = k$축으로 회전할 때, 입체의 표면적\n\n$$S_{y = k} = 2\\pi \\int |y - k| \\cdot \\text{호의 길이}$$\n\n**▸ $y$축 계열**\n\n① $y$축으로 회전할 때, 입체의 표면적\n\n$$S_y = 2\\pi \\int_a^b |x| \\sqrt{1 + (y')^2} \\, dx = 2\\pi \\int |x| \\cdot \\text{호의 길이}$$\n\n② 직선 $x = k$축으로 회전할 때, 입체의 표면적\n\n$$S_{x = k} = 2\\pi \\int |x - k| \\cdot \\text{호의 길이}$$",
     "svg": null,
     "order": 1
   },
   {
-    "id": "f0132",
+    "id": "f0130",
     "unit": "u14",
-    "title": "곡선의 길이",
-    "contentMd": "$$L = \\int_{a}^{b} \\sqrt{1 + (y')^2}\\,dx \\quad \\text{또는} \\quad L = \\int_{c}^{d} \\sqrt{1 + (x')^2}\\,dy$$",
+    "title": "(2) 매개변수 함수",
+    "contentMd": "$$\\begin{cases} x = f(t) \\\\ y = g(t) \\end{cases} \\quad (t_1 \\le t \\le t_2)$$\n\n#### 면적\n\n$$A = \\int_{t_1}^{t_2} |g(t)| \\, f'(t) \\, dt$$\n\n#### 곡선의 길이\n\n$$L = \\int_{t_1}^{t_2} \\sqrt{(x')^2 + (y')^2} \\, dt$$\n\n#### 회전체의 부피\n\n$$V_x = \\pi \\int_{t_1}^{t_2} \\{g(t)\\}^2 \\, f'(t) \\, dt$$\n\n#### 회전체의 표면적\n\n$$S_x = 2\\pi \\int_{t_1}^{t_2} g(t) \\sqrt{(x')^2 + (y')^2} \\, dt$$",
     "svg": null,
     "order": 2
   },
   {
-    "id": "f0133",
+    "id": "f0131",
     "unit": "u14",
-    "title": "$x$축 회전체의 부피",
-    "contentMd": "① $V_{x} = \\pi\\displaystyle\\int_{a}^{b} |f(x)|^2\\,dx$\n\n② $V_{y=L} = \\pi\\displaystyle\\int_{a}^{b} |f(x) - L|^2\\,dx$\n\n③ $V_{x} = \\pi\\displaystyle\\int_{a}^{b} |f(x)|^2 - |g(x)|^2\\,dx$\n\n④ $V_{y=L} = \\pi\\displaystyle\\int_{a}^{b} |f(x) - L|^2 - |g(x) - L|^2\\,dx$",
+    "title": "(3) 극좌표계",
+    "contentMd": "$r = f(\\theta) \\ (\\alpha \\le \\theta \\le \\beta)$일 때,\n\n$$\\begin{cases} x = r\\cos\\theta = f(\\theta)\\cos\\theta \\\\ y = r\\sin\\theta = f(\\theta)\\sin\\theta \\end{cases}$$\n\n로 매개화 해서 공식을 정리하자.\n\n#### 면적\n\n$$\\frac{1}{2} \\int_\\alpha^\\beta r^2 \\, d\\theta$$\n\n#### 곡선의 길이\n\n$$\\int_\\alpha^\\beta \\sqrt{r^2 + (r')^2} \\, d\\theta$$\n\n#### 회전체의 부피\n\n$$V_x = \\pi \\int_\\alpha^\\beta r^2 \\sin^2\\theta \\, (r'\\cos\\theta - r\\sin\\theta) \\, d\\theta$$\n\n#### 회전체의 표면적\n\n$$S_x = 2\\pi \\int_\\alpha^\\beta f(\\theta) \\sin\\theta \\sqrt{r^2 + (r')^2} \\, d\\theta$$",
     "svg": null,
     "order": 3
   },
   {
-    "id": "f0134",
+    "id": "f0132",
     "unit": "u14",
-    "title": "$y$축 회전체의 부피",
-    "contentMd": "① $V_y = 2\\pi\\displaystyle\\int_{a}^{b} |x||f(x)|\\,dx$\n\n② $V_{x=L} = 2\\pi\\displaystyle\\int_{a}^{b} |x - L||f(x)|\\,dx$\n\n③ $V_y = 2\\pi\\displaystyle\\int_{a}^{b} |x||f(x) - g(x)|\\,dx$\n\n④ $V_{x=L} = 2\\pi\\displaystyle\\int_{a}^{b} |x - L||f(x) - g(x)|\\,dx$",
+    "title": "(4) 매개변수 함수와 극좌표 함수 (주요 곡선)",
+    "contentMd": "#### ① 파선형 (Cycloid)\n\n$$\\begin{cases} x = a(t - \\sin t) \\\\ y = a(1 - \\cos t) \\end{cases}$$\n\n- **면적**: $3\\pi a^2$\n- **곡선의 길이**: $8a$\n- **회전체의 부피**: $5\\pi^2 a^3$\n- **회전체의 표면적**: $\\dfrac{64}{3}\\pi a^2$\n\n#### ② 성망형 (Asteroid)\n\n$$\\begin{cases} x = a\\cos^3 t \\\\ y = a\\sin^3 t \\end{cases}$$\n\n- **면적**: $\\dfrac{3\\pi a^2}{8}$\n- **곡선의 길이**: $6a$\n- **회전체의 부피**: $\\dfrac{32}{105}\\pi a^3$\n- **회전체의 표면적**: $\\dfrac{12}{5}\\pi a^2$\n\n#### ③ 심장형\n\n$$r = a(1 \\pm \\cos\\theta) \\quad \\text{또는} \\quad r = a(1 \\pm \\sin\\theta)$$\n\n- **면적**: $\\dfrac{3\\pi a^2}{2}$\n- **곡선의 길이**: $8a$\n\n#### ④ 연주형 (2엽장미)\n\n$$r^2 = a^2 \\cos 2\\theta \\quad \\text{또는} \\quad r^2 = a^2 \\sin 2\\theta$$\n\n- **면적**: $a^2$\n\n#### ⑤ 4엽 장미\n\n$$r = a\\cos 2\\theta \\quad \\text{또는} \\quad r = a\\sin 2\\theta$$\n\n- **면적**: $\\dfrac{\\pi}{2} a^2$\n\n#### ⑥ 3엽 장미\n\n$$r = a\\cos 3\\theta \\quad \\text{또는} \\quad r = a\\sin 3\\theta$$\n\n- **면적**: $\\dfrac{\\pi}{4} a^2$",
     "svg": null,
     "order": 4
   },
   {
-    "id": "f0135",
-    "unit": "u14",
-    "title": "회전체의 표면적",
-    "contentMd": "① $x$축 회전: $S_x = 2\\pi\\displaystyle\\int_{a}^{b} |y|\\sqrt{1 + (y')^2}\\,dx$\n\n② $y = k$축 회전: $S_{y=k} = 2\\pi\\displaystyle\\int |y - k| \\cdot \\text{호의 길이}$\n\n③ $y$축 회전: $S_y = 2\\pi\\displaystyle\\int_{a}^{b} |x|\\sqrt{1 + (y')^2}\\,dx$\n\n④ $x = k$축 회전: $S_{x=k} = 2\\pi\\displaystyle\\int |x - k| \\cdot \\text{호의 길이}$",
-    "svg": null,
-    "order": 5
-  },
-  {
-    "id": "f0136",
-    "unit": "u14",
-    "title": "(2) 매개변수 함수 $\\begin{cases} x = f(t) \\\\ y = g(t) \\end{cases} \\ (t_1 \\leq t \\leq t_2)$",
-    "contentMd": "| 분류 | 공식 |\n|---|---|\n| 면적 | $A = \\displaystyle\\int_{t_1}^{t_2} \\lvert g(t)\\rvert f'(t)\\,dt$ |\n| 곡선의 길이 | $L = \\displaystyle\\int_{t_1}^{t_2} \\sqrt{(x')^2 + (y')^2}\\,dt$ |\n| 회전체의 부피 | $V_x = \\pi\\displaystyle\\int_{t_1}^{t_2} \\{g(t)\\}^2 f'(t)\\,dt$ |\n| 회전체의 표면적 | $S_x = 2\\pi\\displaystyle\\int_{t_1}^{t_2} g(t)\\sqrt{(x')^2 + (y')^2}\\,dt$ |",
-    "svg": null,
-    "order": 6
-  },
-  {
-    "id": "f0137",
-    "unit": "u14",
-    "title": "(3) 극좌표계 $r = f(\\theta) \\ (\\alpha \\leq \\theta \\leq \\beta)$",
-    "contentMd": "| 분류 | 공식 |\n|---|---|\n| 면적 | $\\dfrac{1}{2}\\displaystyle\\int_{\\alpha}^{\\beta} r^2\\,d\\theta$ |\n| 곡선의 길이 | $\\displaystyle\\int_{\\alpha}^{\\beta} \\sqrt{r^2 + (r')^2}\\,d\\theta$ |\n| 회전체의 부피 | $V_x = \\pi\\displaystyle\\int_{\\alpha}^{\\beta} r^2 \\sin^2\\theta\\,(r'\\cos\\theta - r\\sin\\theta)\\,d\\theta$ |\n| 회전체의 표면적 | $S_x = 2\\pi\\displaystyle\\int_{\\alpha}^{\\beta} f(\\theta)\\sin\\theta \\sqrt{r^2 + (r')^2}\\,d\\theta$ |",
-    "svg": null,
-    "order": 7
-  },
-  {
-    "id": "f0138",
-    "unit": "u14",
-    "title": "(4) 매개변수 함수와 극좌표 함수 — 주요 곡선",
-    "contentMd": "| | 면적 | 곡선 길이 | 회전체 부피 | 회전체 표면적 |\n|---|---|---|---|---|\n| 파선형 (Cycloid) $x = a(t - \\sin t), \\ y = a(1 - \\cos t)$ | $3\\pi a^2$ | $8a$ | $5\\pi^2 a^3$ | $\\dfrac{64}{3}\\pi a^2$ |\n| 성망형 (Asteroid) $x = a\\cos^3 t, \\ y = a\\sin^3 t$ | $\\dfrac{3\\pi a^2}{8}$ | $6a$ | $\\dfrac{32}{105}\\pi a^3$ | $\\dfrac{12}{5}\\pi a^2$ |\n| 심장형 $r = a(1 \\pm \\cos\\theta)$, $r = a(1 \\pm \\sin\\theta)$ | $\\dfrac{3\\pi a^2}{2}$ | $8a$ | — | — |\n| 연주형(2엽장미) $r^2 = a^2\\cos 2\\theta$, $r^2 = a^2 \\sin 2\\theta$ | $a^2$ | — | — | — |\n| 4엽 장미 $r = a\\cos 2\\theta$, $r = a\\sin 2\\theta$ | $\\dfrac{\\pi}{2}a^2$ | — | — | — |\n| 3엽 장미 $r = a\\cos 3\\theta$, $r = a\\sin 3\\theta$ | $\\dfrac{\\pi}{4}a^2$ | — | — | — |",
-    "svg": null,
-    "order": 8
-  },
-  {
-    "id": "f0139",
+    "id": "f0133",
     "unit": "u14",
     "title": "(5) 파푸스 정리",
-    "contentMd": "주어진 함수가 단순 폐곡선 (원, 타원 등)일 때:\n\n① 회전체의 부피 $=$ 폐곡선의 단면적 $\\times 2\\pi d$\n\n② 회전체의 표면적 $=$ 폐곡선의 둘레의 길이 $\\times 2\\pi d$\n\n($d$: 폐곡선의 중심과 회전축과의 거리)\n\n*Areum Math 편입수학 수식 & SVG 그래프 정리 — 완료*",
+    "contentMd": "주어진 함수가 단순 폐곡선(원, 타원 등)일 때,\n\n① 회전체의 부피 $=$ 폐곡선의 단면적 $\\times \\, 2\\pi d$\n\n② 회전체의 표면적 $=$ 폐곡선의 둘레의 길이 $\\times \\, 2\\pi d$\n\n($d$: 폐곡선의 중심과 회전축과의 거리)",
     "svg": null,
-    "order": 9
+    "order": 5
   }
 ];

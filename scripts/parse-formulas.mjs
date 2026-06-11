@@ -109,33 +109,91 @@ function splitGraphBlocks(unit, body) {
   void text;
 }
 
-for (const seg of segments) {
-  if (seg.level === 1) continue; // # 영역 헤더 (미적분)
+// Level-3에 직접 body가 있으면 그 아래 Level-4 형제들의 내용을 #### 헤더와 함께
+// 한 카드의 contentMd로 흡수한다. (예: 3.6 적분의 응용 — (1) 직교좌표계 카드 안에
+// 면적·곡선의 길이·회전체 부피·표면적이 한꺼번에 들어감)
+// Level-3에 직접 body가 없으면 컨테이너로 보고 Level-4 자식들이 각자 카드가 된다.
+let i = 0;
+while (i < segments.length) {
+  const seg = segments[i];
+
+  if (seg.level === 1) { i++; continue; }
+
   if (seg.level === 2) {
     unitIndex += 1;
     curUnit = { id: slugUnit(unitIndex), name: cleanTitle(seg.title), order: unitIndex + 1 };
     units.push(curUnit);
-    continue;
-  }
-  if (!curUnit) continue; // ## 이전의 ### 은 없음
-
-  const bt = bodyText(seg.body);
-  if (!bt) continue; // 직접 콘텐츠 없는 컨테이너 헤딩 → 스킵
-
-  // 그래프 캡션이 있으면 개별 그래프 블록으로 분해
-  if (/^\*\*\(\d+\)\*\*/m.test(bt)) {
-    splitGraphBlocks(curUnit, seg.body);
+    i++;
     continue;
   }
 
-  // 일반 수식 블록 (인라인 svg 있으면 분리)
-  const { svgs, rest } = extractSvgs(bt);
-  const title = cleanTitle(seg.title);
-  pushFormula(curUnit, title, rest, svgs[0] || null);
-  // 한 블록에 svg가 2개 이상이면 나머지는 후속 블록으로 (희소 케이스)
-  for (let k = 1; k < svgs.length; k++) {
-    pushFormula(curUnit, `${title} (그래프 ${k + 1})`, '', svgs[k]);
+  if (!curUnit) { i++; continue; }
+
+  if (seg.level === 3) {
+    const bt = bodyText(seg.body);
+    const cleanedTitle = cleanTitle(seg.title);
+    // "(N) ..." 번호 접두사가 있으면 하나의 카드 단위로 본다 (본문이 없어도 자식 흡수)
+    const isNumbered = /^\(\d+\)/.test(cleanedTitle);
+
+    // 그래프 캡션이 body에 직접 있으면 개별 그래프 블록으로 분해
+    if (bt && /^\*\*\(\d+\)\*\*/m.test(bt)) {
+      splitGraphBlocks(curUnit, seg.body);
+      i++;
+      continue;
+    }
+
+    // 다음 Level-2/3까지의 Level-4 자식들을 수집
+    const children = [];
+    let j = i + 1;
+    while (j < segments.length && segments[j].level >= 4) {
+      if (segments[j].level === 4) children.push(segments[j]);
+      j++;
+    }
+
+    const shouldAbsorb = isNumbered || (bt && children.length > 0) || (bt && children.length === 0);
+    // 컨테이너 케이스: 본문이 없고 (N) 번호도 없으며 자식이 존재 → 자식들이 개별 카드가 됨
+    if (!shouldAbsorb) {
+      i++;
+      continue;
+    }
+
+    const parts = [];
+    if (bt) parts.push(bt);
+    for (const child of children) {
+      const childBt = bodyText(child.body);
+      if (!childBt) continue;
+      parts.push(`#### ${cleanTitle(child.title)}\n\n${childBt}`);
+    }
+    const { svgs, rest } = extractSvgs(parts.join('\n\n'));
+    pushFormula(curUnit, cleanedTitle, rest, svgs[0] || null);
+    for (let k = 1; k < svgs.length; k++) {
+      pushFormula(curUnit, `${cleanedTitle} (그래프 ${k + 1})`, '', svgs[k]);
+    }
+    i = j; // 흡수한 자식들은 건너뛴다
+    continue;
   }
+
+  if (seg.level === 4) {
+    const bt = bodyText(seg.body);
+    if (!bt) { i++; continue; }
+
+    if (/^\*\*\(\d+\)\*\*/m.test(bt)) {
+      splitGraphBlocks(curUnit, seg.body);
+      i++;
+      continue;
+    }
+
+    const { svgs, rest } = extractSvgs(bt);
+    const title = cleanTitle(seg.title);
+    pushFormula(curUnit, title, rest, svgs[0] || null);
+    for (let k = 1; k < svgs.length; k++) {
+      pushFormula(curUnit, `${title} (그래프 ${k + 1})`, '', svgs[k]);
+    }
+    i++;
+    continue;
+  }
+
+  i++;
 }
 
 // unit별 count
@@ -186,15 +244,21 @@ sqlParts.push('');
 sqlParts.push('-- categories (세부단원, 영역=미적분)');
 units.forEach((u, i) => {
   sqlParts.push(
-    `INSERT INTO categories (id, area, name, sort_order) VALUES (${i + 1}, ${sq(AREA)}, ${sq(u.name)}, ${u.order}) ON CONFLICT (id) DO NOTHING;`,
+    `INSERT INTO categories (id, area, name, sort_order) VALUES (${i + 1}, ${sq(AREA)}, ${sq(u.name)}, ${u.order}) ` +
+      `ON CONFLICT (id) DO UPDATE SET area = EXCLUDED.area, name = EXCLUDED.name, sort_order = EXCLUDED.sort_order;`,
   );
 });
+sqlParts.push('');
+sqlParts.push('-- 삭제된 id 정리: 이번 시드에 없는 행은 제거 (formulas 먼저)');
+sqlParts.push(`DELETE FROM formulas WHERE id > ${formulas.length};`);
+sqlParts.push(`DELETE FROM categories WHERE id > ${units.length};`);
 sqlParts.push('');
 sqlParts.push('-- formulas (공식/그래프 블록)');
 const unitDbId = new Map(units.map((u, i) => [u.id, i + 1]));
 formulas.forEach((f, i) => {
   sqlParts.push(
-    `INSERT INTO formulas (id, category_id, title, content_md, svg, sort_order) VALUES (${i + 1}, ${unitDbId.get(f.unit)}, ${sq(f.title)}, ${sq(f.contentMd)}, ${sq(f.svg)}, ${f.order}) ON CONFLICT (id) DO NOTHING;`,
+    `INSERT INTO formulas (id, category_id, title, content_md, svg, sort_order) VALUES (${i + 1}, ${unitDbId.get(f.unit)}, ${sq(f.title)}, ${sq(f.contentMd)}, ${sq(f.svg)}, ${f.order}) ` +
+      `ON CONFLICT (id) DO UPDATE SET category_id = EXCLUDED.category_id, title = EXCLUDED.title, content_md = EXCLUDED.content_md, svg = EXCLUDED.svg, sort_order = EXCLUDED.sort_order;`,
   );
 });
 sqlParts.push('');

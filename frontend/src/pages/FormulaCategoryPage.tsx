@@ -3,7 +3,6 @@ import type { GoFn } from '../types';
 import { getAreaById } from '../data/formulas';
 import { fetchCategories, fetchFormulasByCategory, type CategoryDto, type FormulaDto } from '../api/formulas';
 import AppHeader from '../components/AppHeader';
-import Tex from '../components/Tex';
 import TexTitle from '../components/TexTitle';
 
 interface FormulaCategoryPageProps {
@@ -112,8 +111,6 @@ export default function FormulaCategoryPage({ go, params, favorites, toggleFavor
                           {formulas.map(f => {
                             const fid = String(f.id);
                             const isFav = favorites.includes(fid);
-                            const titleHasMath = /^\(\d+\)\s/.test(f.title) || /[\\^_{}]/.test(f.title) || f.title.includes('$');
-                            const firstLatex = titleHasMath ? '' : (f.contentMd.match(/\$([^$]+)\$/)?.[1] || '');
                             return (
                               <div key={f.id} onClick={() => go('formula-detail', { id: f.id, categoryId: f.categoryId })} style={{
                                 background: 'var(--surface)', border: '1px solid var(--border)',
@@ -129,17 +126,19 @@ export default function FormulaCategoryPage({ go, params, favorites, toggleFavor
                                     fontFamily: 'var(--font-serif)', fontSize: 15, fontWeight: 600,
                                     color: 'var(--text-primary)', letterSpacing: '-0.01em', marginBottom: 4,
                                   }}><TexTitle>{f.title}</TexTitle></div>
-                                  {firstLatex && (
-                                    <div style={{
-                                      fontSize: 12, color: 'var(--text-secondary)',
-                                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                                    }}>
-                                      <Tex>{firstLatex}</Tex>
-                                    </div>
-                                  )}
                                 </div>
                                 {f.svg && (
-                                  <span style={{ fontSize: 10, color: 'var(--text-muted)', flexShrink: 0 }}>📊</span>
+                                  <span title="그래프" style={{
+                                    flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                                    width: 22, height: 22, borderRadius: 6,
+                                    background: 'var(--primary-light)',
+                                  }}>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+                                      <line x1="4" y1="20" x2="20" y2="20" stroke="var(--primary)" strokeWidth="1.6" strokeLinecap="round" />
+                                      <line x1="4" y1="20" x2="4" y2="4" stroke="var(--primary)" strokeWidth="1.6" strokeLinecap="round" />
+                                      <path d="M5 16 Q 10 6, 14 11 T 19 6" stroke="var(--primary)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                                    </svg>
+                                  </span>
                                 )}
                                 <button onClick={(e) => { e.stopPropagation(); toggleFavorite(fid); }} style={{
                                   background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0,

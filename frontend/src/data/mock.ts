@@ -1,6 +1,5 @@
 // 편입 수학 - 데이터 (v2) — TypeScript 변환
 import type {
-  FormulaCategory,
   Formula,
   School,
   Problem,
@@ -9,61 +8,10 @@ import type {
 } from '../types';
 
 // ─────────────────────────────────────
-// 공식 카테고리 + 서브파트 + 공식
+// 공식 (레거시 — AnalyzePage, MyPage 호환용)
 // ─────────────────────────────────────
-export const FORMULA_TREE: FormulaCategory[] = [
-  {
-    id: 'calculus',
-    name: '미적분',
-    color: '#D97757',
-    desc: '극한·미분·적분의 핵심',
-    subparts: [
-      { id: 'limit', name: '극한과 연속', count: 14 },
-      { id: 'diff', name: '미분법', count: 22 },
-      { id: 'integral', name: '적분법', count: 28 },
-      { id: 'series', name: '급수와 수렴', count: 12 },
-    ],
-  },
-  {
-    id: 'linalg',
-    name: '선형대수',
-    color: '#A8543A',
-    desc: '행렬·벡터공간·고유값',
-    subparts: [
-      { id: 'matrix', name: '행렬과 행렬식', count: 18 },
-      { id: 'vectorspace', name: '벡터공간', count: 14 },
-      { id: 'eigen', name: '고유값과 고유벡터', count: 11 },
-      { id: 'lineartf', name: '선형변환', count: 9 },
-    ],
-  },
-  {
-    id: 'multivar',
-    name: '다변수미적분',
-    color: '#8A6F1B',
-    desc: '편미분·중적분·벡터해석',
-    subparts: [
-      { id: 'partial', name: '편미분과 그래디언트', count: 13 },
-      { id: 'multiint', name: '중적분', count: 16 },
-      { id: 'vectorcal', name: '벡터장과 선적분', count: 12 },
-      { id: 'theorems', name: '그린·발산·스토크스 정리', count: 8 },
-    ],
-  },
-  {
-    id: 'engmath',
-    name: '공업수학',
-    color: '#3F6F95',
-    desc: '미분방정식·변환·복소해석',
-    subparts: [
-      { id: 'ode', name: '상미분방정식', count: 19 },
-      { id: 'laplace', name: '라플라스 변환', count: 14 },
-      { id: 'fourier', name: '푸리에 급수', count: 11 },
-      { id: 'complex', name: '복소해석', count: 13 },
-    ],
-  },
-];
-
-// 카테고리·서브파트별 공식 (전체 데이터)
-export const FORMULAS: Formula[] = [
+// NOTE: FORMULA_TREE와 getFormulasByUnit 등 신규 API는 ../data/formulas.ts 사용
+const FORMULAS: Formula[] = [
   // ── 미적분 / 극한과 연속
   {
     id: 'lim-def', cat: 'calculus', sub: 'limit',
@@ -331,12 +279,7 @@ export const FORMULAS: Formula[] = [
   },
 ];
 
-// 카테고리/서브파트별 공식 조회
-export function getFormulasBy(catId: string, subId?: string): Formula[] {
-  return FORMULAS.filter(f => f.cat === catId && (!subId || f.sub === subId));
-}
-
-// 공식 ID로 조회
+// 공식 ID로 조회 (레거시 — AnalyzePage, MyPage 호환용)
 export function getFormula(id: string): Formula | undefined {
   return FORMULAS.find(f => f.id === id);
 }

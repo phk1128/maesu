@@ -1,13 +1,14 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { GoFn } from '../types';
-import { FORMULA_TREE, FORMULAS, getFormula } from '../data/mock';
+import { fetchFormula, fetchFormulasByCategory, type FormulaDto } from '../api/formulas';
 import AppHeader from '../components/AppHeader';
-import FormulaRow from '../components/FormulaRow';
+import FormulaContent from '../components/FormulaContent';
 import EmptyState from '../components/EmptyState';
 import SecondaryButton from '../components/SecondaryButton';
 import SectionHeader from '../components/SectionHeader';
 import ProBadge from '../components/ProBadge';
 import Tex from '../components/Tex';
+import TexTitle from '../components/TexTitle';
 
 interface FormulaDetailPageProps {
   go: GoFn;
@@ -19,13 +20,39 @@ interface FormulaDetailPageProps {
 }
 
 export default function FormulaDetailPage({ go, params, favorites, toggleFavorite, markStudied, hideAI }: FormulaDetailPageProps) {
-  const formula = getFormula(params.id as string);
+  const formulaId = params.id as number;
+  const [formula, setFormula] = useState<FormulaDto | null>(null);
+  const [related, setRelated] = useState<FormulaDto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (formula && markStudied) markStudied('formula', formula.id);
-  }, [params.id]); // eslint-disable-line react-hooks/exhaustive-deps
+    setLoading(true);
+    setError(false);
+    fetchFormula(formulaId)
+      .then(f => {
+        setFormula(f);
+        if (markStudied) markStudied('formula', String(f.id));
+        // 같은 카테고리의 관련 공식 로드
+        return fetchFormulasByCategory(f.categoryId);
+      })
+      .then(all => {
+        setRelated(all.filter(f => f.id !== formulaId).slice(0, 3));
+      })
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [formulaId]);
 
-  if (!formula) {
+  if (loading) {
+    return (
+      <div style={{ paddingBottom: 110 }}>
+        <AppHeader title="공식" showBack onBack={() => go(-1)} />
+        <div style={{ padding: '60px 20px', textAlign: 'center', color: 'var(--text-muted)', fontSize: 13 }}>불러오는 중...</div>
+      </div>
+    );
+  }
+
+  if (error || !formula) {
     return (
       <div style={{ paddingBottom: 110 }}>
         <AppHeader title="공식" showBack onBack={() => go(-1)} />
@@ -37,12 +64,9 @@ export default function FormulaDetailPage({ go, params, favorites, toggleFavorit
       </div>
     );
   }
-  const isFav = favorites.includes(formula.id);
-  const cat = FORMULA_TREE.find(c => c.id === formula.cat);
-  const sub = cat?.subparts.find(s => s.id === formula.sub);
-  const related = FORMULAS.filter(f => f.sub === formula.sub && f.id !== formula.id).slice(0, 3);
 
-  const levelLabel: Record<number, string> = { 3: '\u2605\u2605\u2605 필수', 2: '\u2605\u2605 유용', 1: '\u2605 참고' };
+  const fid = String(formula.id);
+  const isFav = favorites.includes(fid);
 
   return (
     <div style={{ paddingBottom: 110 }}>
@@ -50,7 +74,7 @@ export default function FormulaDetailPage({ go, params, favorites, toggleFavorit
         title={formula.title}
         showBack onBack={() => go(-1)}
         right={
-          <button onClick={() => toggleFavorite(formula.id)} style={{
+          <button onClick={() => toggleFavorite(fid)} style={{
             background: 'none', border: 'none', padding: 8, margin: '-4px -4px -4px 0', cursor: 'pointer',
             color: isFav ? 'var(--primary)' : 'var(--text-secondary)',
           }}>
@@ -62,41 +86,47 @@ export default function FormulaDetailPage({ go, params, favorites, toggleFavorit
       />
 
       <div style={{ padding: '12px 20px 20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14, fontSize: 12 }}>
-          <span style={{ color: 'var(--text-muted)' }}>{cat?.name}</span>
-          <span style={{ color: 'var(--text-muted)' }}>·</span>
-          <span style={{ color: 'var(--text-secondary)' }}>{sub?.name}</span>
-          <span style={{ marginLeft: 'auto', color: 'var(--primary)', fontWeight: 600, fontSize: 11 }}>{levelLabel[formula.importance]}</span>
-        </div>
         <h1 style={{
           fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 600,
-          color: 'var(--text-primary)', margin: '0 0 8px', letterSpacing: '-0.02em', lineHeight: 1.2,
-        }}>{formula.title}</h1>
-        <p style={{ fontSize: 14, color: 'var(--text-secondary)', margin: 0, lineHeight: 1.55 }}>{formula.short}</p>
+          color: 'var(--text-primary)', margin: '0 0 12px', letterSpacing: '-0.02em', lineHeight: 1.2,
+        }}><TexTitle>{formula.title}</TexTitle></h1>
       </div>
 
       <div style={{ padding: '0 20px 24px' }}>
         <div style={{
           background: 'var(--surface)', border: '1px solid var(--border)',
-          borderRadius: 16, padding: '28px 16px', textAlign: 'center',
-          fontSize: 19, overflow: 'auto',
+          borderRadius: 16, padding: '20px 16px',
+          overflow: 'auto',
         }}>
-          <Tex block>{formula.latex}</Tex>
+          <FormulaContent contentMd={formula.contentMd} svg={formula.svg} />
         </div>
       </div>
 
       {related.length > 0 && (
         <div style={{ padding: '0 20px 24px' }}>
-          <SectionHeader icon="🔗" label={`${sub?.name} 다른 공식`} />
+          <SectionHeader icon="🔗" label="같은 단원 다른 공식" />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {related.map(r => (
-              <FormulaRow key={r.id} formula={r}
-                onClick={() => go('formula-detail', { id: r.id })}
-                isFavorite={favorites.includes(r.id)}
-                onToggleFavorite={toggleFavorite}
-                compact
-              />
-            ))}
+            {related.map(r => {
+              const titleHasMath = /^\(\d+\)\s/.test(r.title) || /[\\^_{}]/.test(r.title) || r.title.includes('$');
+              const firstLatex = titleHasMath ? '' : (r.contentMd.match(/\$([^$]+)\$/)?.[1] || '');
+              return (
+                <div key={r.id} onClick={() => go('formula-detail', { id: r.id, categoryId: r.categoryId })} style={{
+                  background: 'var(--surface)', border: '1px solid var(--border)',
+                  borderRadius: 12, padding: '12px 14px',
+                  cursor: 'pointer', transition: 'all 150ms',
+                  display: 'flex', alignItems: 'center', gap: 12,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-strong)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+                >
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontFamily: 'var(--font-serif)', fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}><TexTitle>{r.title}</TexTitle></div>
+                    {firstLatex && <div style={{ fontSize: 12, color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}><Tex>{firstLatex}</Tex></div>}
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M9 18l6-6-6-6" /></svg>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

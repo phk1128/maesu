@@ -1,5 +1,6 @@
 import type { User, GoFn } from '../types';
-import { SCHOOLS, FORMULAS, FORMULA_TREE, CONTRIB_GRID, TOTAL_STUDIED, CURRENT_STREAK } from '../data/mock';
+import { SCHOOLS, CONTRIB_GRID, TOTAL_STUDIED, CURRENT_STREAK } from '../data/mock';
+import { AREAS } from '../data/formulas';
 import Logo from '../components/Logo';
 import ExamCountdown from '../components/ExamCountdown';
 import ContributionGrid from '../components/ContributionGrid';
@@ -93,10 +94,10 @@ export default function HomePage({ go, user, signIn: _signIn, primarySchool, set
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           <FeatureTile
             title="공식"
-            subtitle={`${FORMULAS.length}개 핵심 공식 정리`}
+            subtitle="핵심 공식 정리"
             icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>}
             onClick={() => go('formulas')}
-            visual={<TileChips items={FORMULA_TREE.slice(0, 3).map(c => c.name)} />}
+            visual={<TileChips items={AREAS.slice(0, 3).map(a => a.name)} />}
           />
           <FeatureTile
             title="기출"

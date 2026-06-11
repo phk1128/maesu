@@ -29,9 +29,13 @@ type Block =
   | { type: 'displayMath'; content: string }
   | { type: 'text'; segments: Segment[] }
   | { type: 'table'; rows: string[][] }
-  | { type: 'list'; items: Segment[][] };
+  | { type: 'list'; items: Segment[][] }
+  | { type: 'heading'; level: 3 | 4; segments: Segment[] };
 
-type Segment = { type: 'text'; content: string } | { type: 'math'; content: string };
+type Segment =
+  | { type: 'text'; content: string }
+  | { type: 'math'; content: string }
+  | { type: 'bold'; segments: Segment[] };
 
 function parseContentMd(md: string): Block[] {
   const lines = md.split('\n');
@@ -43,6 +47,15 @@ function parseContentMd(md: string): Block[] {
 
     // Empty line
     if (!line) { i++; continue; }
+
+    // Heading: #### / ###
+    const headingMatch = line.match(/^(#{3,4})\s+(.+)$/);
+    if (headingMatch) {
+      const level = headingMatch[1].length as 3 | 4;
+      blocks.push({ type: 'heading', level, segments: parseInline(headingMatch[2]) });
+      i++;
+      continue;
+    }
 
     // Display math: $$...$$
     if (line.startsWith('$$')) {
@@ -102,18 +115,22 @@ function parseContentMd(md: string): Block[] {
 }
 
 function parseInline(text: string): Segment[] {
+  // 토큰 우선순위: $...$ (math) > **...** (bold) > 텍스트
+  const tokenRe = /\$([^$]+)\$|\*\*([^*]+)\*\*/g;
   const segments: Segment[] = [];
-  // Match $...$ (not $$)
-  const regex = /\$([^$]+)\$/g;
   let lastIndex = 0;
   let match;
 
-  while ((match = regex.exec(text)) !== null) {
+  while ((match = tokenRe.exec(text)) !== null) {
     if (match.index > lastIndex) {
       segments.push({ type: 'text', content: text.slice(lastIndex, match.index) });
     }
-    segments.push({ type: 'math', content: match[1] });
-    lastIndex = regex.lastIndex;
+    if (match[1] !== undefined) {
+      segments.push({ type: 'math', content: match[1] });
+    } else {
+      segments.push({ type: 'bold', segments: parseInline(match[2]) });
+    }
+    lastIndex = tokenRe.lastIndex;
   }
 
   if (lastIndex < text.length) {
@@ -125,21 +142,46 @@ function parseInline(text: string): Segment[] {
 
 function renderBlock(block: Block) {
   switch (block.type) {
+    case 'heading': {
+      const isSection = block.level === 3;
+      return (
+        <div style={{
+          fontFamily: 'var(--font-serif)',
+          fontSize: isSection ? 16 : 14,
+          fontWeight: 700,
+          color: 'var(--text-primary)',
+          letterSpacing: '-0.01em',
+          marginTop: isSection ? 8 : 4,
+          paddingBottom: 6,
+          borderBottom: isSection ? '1px solid var(--border)' : 'none',
+        }}>
+          {renderSegments(block.segments)}
+        </div>
+      );
+    }
     case 'displayMath':
       return (
         <div style={{
           background: 'var(--bg)', borderRadius: 10, padding: '14px 12px',
-          textAlign: 'center', fontSize: 17, overflow: 'auto',
+          fontSize: 17,
+          overflowX: 'auto', overflowY: 'hidden',
+          whiteSpace: 'nowrap',
+          textAlign: 'center',
         }}>
           <Tex block>{block.content}</Tex>
         </div>
       );
-    case 'text':
+    case 'text': {
+      const hasMath = block.segments.some(s => s.type === 'math');
       return (
-        <div style={{ fontSize: 14, color: 'var(--text-primary)', lineHeight: 1.6 }}>
+        <div style={{
+          fontSize: 14, color: 'var(--text-primary)', lineHeight: 1.6,
+          ...(hasMath && { whiteSpace: 'nowrap', overflowX: 'auto', overflowY: 'hidden' }),
+        }}>
           {renderSegments(block.segments)}
         </div>
       );
+    }
     case 'table':
       return (
         <div style={{ overflow: 'auto', fontSize: 13 }}>
@@ -187,9 +229,9 @@ function renderBlock(block: Block) {
 }
 
 function renderSegments(segments: Segment[]) {
-  return segments.map((seg, i) =>
-    seg.type === 'math'
-      ? <Tex key={i}>{seg.content}</Tex>
-      : <span key={i}>{seg.content}</span>
-  );
+  return segments.map((seg, i) => {
+    if (seg.type === 'math') return <Tex key={i}>{seg.content}</Tex>;
+    if (seg.type === 'bold') return <strong key={i}>{renderSegments(seg.segments)}</strong>;
+    return <span key={i}>{seg.content}</span>;
+  });
 }

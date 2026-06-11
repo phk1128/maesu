@@ -30,14 +30,47 @@ async function apiFetch<T>(path: string): Promise<T> {
   return json.data;
 }
 
-export async function fetchCategories(): Promise<CategoryDto[]> {
-  return apiFetch<CategoryDto[]>('/categories');
+// 공식·카테고리 데이터는 정적이므로 세션 동안 캐시한다.
+// Promise를 캐싱해 결과 캐시 + 동시 요청 dedup을 함께 처리한다.
+let categoriesCache: Promise<CategoryDto[]> | null = null;
+const categoryFormulasCache = new Map<number, Promise<FormulaDto[]>>();
+const formulaCache = new Map<number, Promise<FormulaDto>>();
+
+export function fetchCategories(): Promise<CategoryDto[]> {
+  if (categoriesCache) return categoriesCache;
+  categoriesCache = apiFetch<CategoryDto[]>('/categories').catch(err => {
+    categoriesCache = null; // 실패는 캐시하지 않음
+    throw err;
+  });
+  return categoriesCache;
 }
 
-export async function fetchFormulasByCategory(categoryId: number): Promise<FormulaDto[]> {
-  return apiFetch<FormulaDto[]>(`/categories/${categoryId}/formulas`);
+export function fetchFormulasByCategory(categoryId: number): Promise<FormulaDto[]> {
+  const cached = categoryFormulasCache.get(categoryId);
+  if (cached) return cached;
+  const p = apiFetch<FormulaDto[]>(`/categories/${categoryId}/formulas`)
+    .then(formulas => {
+      // 목록으로 받은 개별 공식도 미리 캐시 → 상세 진입 시 재요청 0번
+      for (const f of formulas) {
+        if (!formulaCache.has(f.id)) formulaCache.set(f.id, Promise.resolve(f));
+      }
+      return formulas;
+    })
+    .catch(err => {
+      categoryFormulasCache.delete(categoryId);
+      throw err;
+    });
+  categoryFormulasCache.set(categoryId, p);
+  return p;
 }
 
-export async function fetchFormula(formulaId: number): Promise<FormulaDto> {
-  return apiFetch<FormulaDto>(`/formulas/${formulaId}`);
+export function fetchFormula(formulaId: number): Promise<FormulaDto> {
+  const cached = formulaCache.get(formulaId);
+  if (cached) return cached;
+  const p = apiFetch<FormulaDto>(`/formulas/${formulaId}`).catch(err => {
+    formulaCache.delete(formulaId);
+    throw err;
+  });
+  formulaCache.set(formulaId, p);
+  return p;
 }

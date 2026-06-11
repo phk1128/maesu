@@ -7,6 +7,12 @@ spring:
     username: postgres.whyumsehphqhenqvxwuo
     password: ${DB_PASSWORD}
 
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+
   jpa:
     hibernate:
       ddl-auto: validate
@@ -14,3 +20,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
+
+logging:
+  level:
+    com.colosseum.backend: DEBUG
+    org.hibernate.SQL: DEBUG

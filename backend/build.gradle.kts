@@ -20,15 +20,11 @@ repositories {
     mavenCentral()
 }
 
-extra["springAiVersion"] = "2.0.0-RC1"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.ai:spring-ai-advisors-vector-store")
-    implementation("org.springframework.ai:spring-ai-starter-model-postgresml-embedding")
-    implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
     implementation("tools.jackson.module:jackson-module-kotlin")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
@@ -41,11 +37,6 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok")
 }
 
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.ai:spring-ai-bom:${property("springAiVersion")}")
-    }
-}
 
 kotlin {
     compilerOptions {

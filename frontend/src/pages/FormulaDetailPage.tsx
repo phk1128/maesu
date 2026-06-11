@@ -9,6 +9,7 @@ import SectionHeader from '../components/SectionHeader';
 import ProBadge from '../components/ProBadge';
 import Tex from '../components/Tex';
 import TexTitle from '../components/TexTitle';
+import { stripFormulaNumber, titleContainsLatex } from '../utils/formulaTitle';
 
 interface FormulaDetailPageProps {
   go: GoFn;
@@ -71,7 +72,7 @@ export default function FormulaDetailPage({ go, params, favorites, toggleFavorit
   return (
     <div style={{ paddingBottom: 110 }}>
       <AppHeader
-        title={formula.title}
+        title={stripFormulaNumber(formula.title)}
         showBack onBack={() => go(-1)}
         right={
           <button onClick={() => toggleFavorite(fid)} style={{
@@ -107,8 +108,8 @@ export default function FormulaDetailPage({ go, params, favorites, toggleFavorit
           <SectionHeader icon="🔗" label="같은 단원 다른 공식" />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {related.map(r => {
-              const titleHasMath = /^\(\d+\)\s/.test(r.title) || /[\\^_{}]/.test(r.title) || r.title.includes('$');
-              const firstLatex = titleHasMath ? '' : (r.contentMd.match(/\$([^$]+)\$/)?.[1] || '');
+              const rawLatex = r.contentMd.match(/\$([^$]+)\$/)?.[1] || '';
+              const firstLatex = titleContainsLatex(r.title, rawLatex) ? '' : rawLatex;
               return (
                 <div key={r.id} onClick={() => go('formula-detail', { id: r.id, categoryId: r.categoryId })} style={{
                   background: 'var(--surface)', border: '1px solid var(--border)',

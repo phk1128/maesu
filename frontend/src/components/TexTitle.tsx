@@ -1,5 +1,6 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import Tex from './Tex';
+import { stripFormulaNumber } from '../utils/formulaTitle';
 
 interface TexTitleProps {
   children: string;
@@ -8,38 +9,29 @@ interface TexTitleProps {
 
 /**
  * 공식 타이틀 렌더러.
- * - "(N) LaTeX수식" → 번호는 텍스트, 수식은 KaTeX
- * - "$x$축 회전체" 등 인라인 $..$ → KaTeX
- * - 일반 텍스트 → 그대로
+ * - "(N)" 번호 접두사는 제거 (정렬은 order 필드가 담당)
+ * - 본문에 $...$ 가 있으면 인라인 수식으로 파싱
+ * - $ 없이 한글이 섞인 경우 일반 텍스트 (KaTeX에 던지지 않음 → 빨간 에러 방지)
+ * - 그 외(LaTeX 명령·기호만 있는 경우)는 KaTeX 렌더
  */
 export default function TexTitle({ children, style }: TexTitleProps) {
-  // Pattern 1: "(N) rest" — numbered formula, rest is LaTeX
-  const numbered = children.match(/^(\(\d+\))\s+(.+)$/);
-  if (numbered) {
-    return (
-      <span style={style}>
-        <span>{numbered[1]} </span>
-        <Tex>{numbered[2]}</Tex>
-      </span>
+  return <span style={style}>{renderMixedContent(stripFormulaNumber(children))}</span>;
+}
+
+function renderMixedContent(text: string): ReactNode {
+  if (text.includes('$')) {
+    return parseInlineMath(text).map((seg, i) =>
+      seg.type === 'math'
+        ? <Tex key={i}>{seg.content}</Tex>
+        : <span key={i}>{seg.content}</span>
     );
   }
-
-  // Pattern 2: contains $...$ inline math
-  if (children.includes('$')) {
-    const segments = parseInlineMath(children);
-    return (
-      <span style={style}>
-        {segments.map((seg, i) =>
-          seg.type === 'math'
-            ? <Tex key={i}>{seg.content}</Tex>
-            : <span key={i}>{seg.content}</span>
-        )}
-      </span>
-    );
+  const hasHangul = /[ㄱ-힝]/.test(text);
+  const hasLatex = /[\\{}^_]/.test(text);
+  if (hasHangul && !hasLatex) {
+    return <span>{text}</span>;
   }
-
-  // Pattern 3: plain text
-  return <span style={style}>{children}</span>;
+  return <Tex>{text}</Tex>;
 }
 
 function parseInlineMath(text: string): Array<{ type: 'text' | 'math'; content: string }> {

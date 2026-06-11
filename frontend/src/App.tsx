@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { User, HistoryEntry, RouteState } from './types';
 import { SCHOOLS } from './data/mock';
 import BottomTab from './components/BottomTab';
@@ -19,7 +19,13 @@ import AnalyzePage from './pages/AnalyzePage';
 import VariationsPage from './pages/VariationsPage';
 
 export default function App() {
-  const [stack, setStack] = useState<RouteState[]>([{ route: 'home', params: {} }]);
+  const [stack, setStack] = useState<RouteState[]>(() => {
+    try {
+      const saved = sessionStorage.getItem('routeStack');
+      if (saved) return JSON.parse(saved);
+    } catch { /* ignore */ }
+    return [{ route: 'home', params: {} }];
+  });
   const cur = stack[stack.length - 1];
 
   const tabRoutes = ['home', 'formulas', 'exams', 'mypage'];
@@ -36,6 +42,10 @@ export default function App() {
       setStack(s => [...s, { route, params }]);
     }
   }, [stack.length]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    sessionStorage.setItem('routeStack', JSON.stringify(stack));
+  }, [stack]);
 
   const [user, setUser] = useState<User | null>(null);
   const [isPro, setIsPro] = useState(false);

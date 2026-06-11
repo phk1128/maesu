@@ -16,10 +16,11 @@ export default function FeatureTile({ title, subtitle, icon, onClick, locked, ac
   if (comingSoon) {
     return (
       <div style={{
-        width: '100%', background: 'var(--surface)',
-        border: '1px dashed var(--border-strong)',
+        width: '100%', background: '#F5F5F5',
+        border: '1px dashed #D0D0D0',
         borderRadius: 16, padding: 16,
         textAlign: 'left', position: 'relative', overflow: 'hidden',
+        opacity: 0.6,
       }}>
         <div style={{
           display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
@@ -27,25 +28,24 @@ export default function FeatureTile({ title, subtitle, icon, onClick, locked, ac
         }}>
           <div style={{
             width: 32, height: 32, borderRadius: 9,
-            background: 'var(--bg)', color: 'var(--text-muted)',
+            background: '#EBEBEB', color: '#B0B0B0',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>{icon}</div>
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 4,
-            padding: '3px 8px', background: 'var(--primary-light)', color: '#A8543A',
+            padding: '3px 8px', background: '#E8E8E8', color: '#999',
             borderRadius: 6, fontSize: 10, fontWeight: 700, letterSpacing: '0.02em',
           }}>
-            <span style={{ width: 4, height: 4, borderRadius: 99, background: 'var(--primary)' }}></span>
             출시 예정
           </span>
         </div>
         <h3 style={{
           fontFamily: 'var(--font-serif)', fontSize: 18, fontWeight: 600,
-          margin: '0 0 4px', letterSpacing: '-0.015em', color: 'var(--text-secondary)',
+          margin: '0 0 4px', letterSpacing: '-0.015em', color: '#999',
         }}>{title}</h3>
         <p style={{
           fontSize: 12.5, margin: 0, lineHeight: 1.5,
-          color: 'var(--text-muted)', letterSpacing: '-0.005em',
+          color: '#B5B5B5', letterSpacing: '-0.005em',
         }}>{subtitle}</p>
       </div>
     );

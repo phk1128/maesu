@@ -7,6 +7,16 @@ description: "편입수학 백엔드 빌드 오케스트레이터. Spring Boot +
 
 편입수학 백엔드(Spring Boot + Kotlin)의 전체 구현을 조율하는 오케스트레이터. 기획서(`../docs/edu-math-service-plan.md`)를 기반으로 Entity, API, 시드 데이터, AI 연동까지 단계적으로 구현하고 검증한다.
 
+## 설계 원칙 (두 에이전트 모두에 전달)
+
+모든 구현·검증은 다음을 따른다. 상세 기준과 패키지 구조·참조 링크는 `backend/CLAUDE.md`에 있으며, 에이전트 호출 시 이를 준수하도록 지시한다.
+
+- **헥사고날 아키텍처(Ports & Adapters)** — `adapter → application → domain` 의존성 방향 엄수, 도메인 순수성 유지, JPA Entity ≠ 도메인 모델.
+- **DDD(도메인 주도 설계)** — `<context>` = 바운디드 컨텍스트. 애그리거트/값 객체/도메인 서비스로 모델링, 불변식은 애그리거트 루트가 보호, Repository는 애그리거트 루트 단위, 이름은 유비쿼터스 언어와 일치.
+- **객체지향(OOP)** — anemic 모델 지양, 비즈니스 규칙은 도메인 객체에, SOLID·캡슐화 준수.
+- **클린코드** — Robert C. Martin 원칙 (의미 있는 이름, 작은 함수, 단일 책임, 중복 제거).
+- **공식문서 우선** — context7 MCP로 **Spring Boot 4.x(= Spring Framework 7.x)** 등 최신 공식문서를 조회 후 작성. 추측 금지.
+
 ## 실행 모드: 서브 에이전트
 
 ## 에이전트 구성
@@ -54,12 +64,16 @@ Agent(
     기획서: ../docs/edu-math-service-plan.md
     콘텐츠 원본: ../docs/data/편입수학_카테고리분류.md
     
+    헥사고날 아키텍처(adapter→application→domain), DDD, 클린코드, OOP를 준수하고,
+    라이브러리 사용 시 context7로 Spring Boot 4.x 공식문서를 참고하라.
+
     다음을 구현하라:
-    1. 공통 — BaseEntity(created_at, updated_at), API 응답 래퍼, 예외 처리
-    2. Entity — categories, formulas, tags, formula_tags (기획서 §3.2 DDL 기반)
-    3. Repository — 기획서 §7의 3개 핵심 쿼리를 JPQL/네이티브 쿼리로 구현
-    4. Service — 공식 목록 조회, 태그 기반 검색, 문제→공식 추천
-    5. Controller — REST API 엔드포인트 (GET /api/categories/{id}/formulas 등)
+    1. 공통(common) — BaseEntity(created_at, updated_at), API 응답 래퍼, 예외 처리
+    2. 도메인(domain) — category/formula/tag 도메인 모델 (순수 Kotlin, JPA 어노테이션 없음)
+    3. 애플리케이션(application) — UseCase 인바운드 포트 + 서비스, Repository 아웃바운드 포트:
+       공식 목록 조회, 태그 기반 검색, 문제→공식 추천 (기획서 §7의 3개 핵심 쿼리)
+    4. 인바운드 어댑터(adapter/in/web) — REST Controller + DTO (GET /api/categories/{id}/formulas 등)
+    5. 아웃바운드 어댑터(adapter/out/persistence) — JPA Entity(§3.2 DDL) + Spring Data Repository + 포트 구현
     6. 시드 데이터 — categories 14행 INSERT SQL, tags 시드 SQL (기획서 §6.2)
     7. application.yml — PostgreSQL 연결 설정 (로컬 개발용)
     
@@ -114,11 +128,12 @@ Agent(
     
     검증 항목:
     1. ./gradlew build 성공 확인
-    2. Entity가 DDL(§3.2)의 모든 테이블/컬럼을 반영하는지 대조
-    3. 필드 정책(§3.3) 준수 여부 확인
-    4. 핵심 쿼리(§7)가 Repository에 올바르게 구현되었는지 확인
-    5. Controller 응답 DTO ↔ Entity 필드 간 shape 일치 확인
-    6. 외래키 관계가 JPA 연관관계로 올바르게 매핑되었는지 확인
+    2. 헥사고날 의존성 방향(adapter→application→domain) 및 도메인 순수성(Spring/JPA 무의존) 준수 확인
+    3. JPA Entity ↔ 도메인 모델 분리, 핵심 쿼리(§7)가 아웃바운드 포트로 선언·구현됐는지 확인
+    4. DDD(애그리거트 경계·불변식 보호·애그리거트 루트 단위 Repository·유비쿼터스 언어), OOP(anemic 모델 아님)·클린코드 준수 점검
+    5. Entity가 DDL(§3.2)의 모든 테이블/컬럼을 반영하고 필드 정책(§3.3)을 지키는지 대조
+    6. 도메인 ↔ Entity ↔ DTO ↔ Controller 응답 간 shape 일치, 외래키 JPA 매핑 확인
+    7. 의심스러운 API/설정은 context7로 Spring Boot 4.x 공식문서와 대조
     
     문제 발견 시 직접 수정하고 재빌드하라.",
   model: "opus"

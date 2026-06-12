@@ -1,0 +1,9 @@
+services:
+  backend:
+    image: ${DOCKERHUB_USERNAME}/maesu-backend:latest
+    container_name: maesu-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_PASSWORD=${DB_PASSWORD}
+    restart: unless-stopped

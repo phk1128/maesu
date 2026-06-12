@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "4.0.6"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "2.2.21"
+    checkstyle
 }
 
 group = "com.colosseum"
@@ -50,6 +51,11 @@ allOpen {
     annotation("jakarta.persistence.Entity")
     annotation("jakarta.persistence.MappedSuperclass")
     annotation("jakarta.persistence.Embeddable")
+}
+
+checkstyle {
+    toolVersion = "10.25.0"
+    configFile = file("config/checkstyle/checkstyle.xml")
 }
 
 tasks.withType<Test> {

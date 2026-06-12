@@ -66,3 +66,5 @@ gradle-app.setting
 ### Spring Boot ###
 application-local.yml
 application-local.properties
+# application.yml은 서브모듈(maesu-submodule/env)에서 관리 — 절대 커밋 금지
+/src/main/resources/application.yml

@@ -61,3 +61,26 @@ checkstyle {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+// application.yml은 git에 올리지 않고 서브모듈(maesu-submodule/env)에서 관리한다.
+// 빌드 시 서브모듈에서 src/main/resources로 복사한 뒤 리소스 처리한다.
+val envSource = file("../maesu-submodule/env/application.yml")
+
+val copyEnv by tasks.registering(Copy::class) {
+    description = "서브모듈 env에서 application.yml을 복사한다 (git 미추적)"
+    group = "build setup"
+    doFirst {
+        if (!envSource.exists()) {
+            throw GradleException(
+                "application.yml을 찾을 수 없습니다: ${envSource.path}\n" +
+                    "서브모듈을 초기화하세요: git submodule update --init",
+            )
+        }
+    }
+    from(envSource)
+    into(layout.projectDirectory.dir("src/main/resources"))
+}
+
+tasks.named("processResources") {
+    dependsOn(copyEnv)
+}

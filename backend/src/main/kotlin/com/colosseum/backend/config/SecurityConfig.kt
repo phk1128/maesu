@@ -61,6 +61,7 @@ class SecurityConfig(
         .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
         .authorizeHttpRequests {
             it.requestMatchers("/api/categories/**", "/api/formulas/**", "/api/universities").permitAll()
+            it.requestMatchers("/api/me").authenticated()
             it.requestMatchers("/api/favorites/**").authenticated()
             it.requestMatchers("/api/study-logs/**").authenticated()
             it.anyRequest().permitAll()

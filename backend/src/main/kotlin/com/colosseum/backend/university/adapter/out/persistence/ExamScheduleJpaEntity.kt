@@ -1,5 +1,6 @@
 package com.colosseum.backend.university.adapter.out.persistence
 
+import com.colosseum.backend.common.BaseTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -29,4 +30,4 @@ class ExamScheduleJpaEntity(
 
     @Column
     val note: String? = null,
-)
+) : BaseTimeEntity()

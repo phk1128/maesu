@@ -1,12 +1,12 @@
 package com.colosseum.backend.studylog.adapter.out.persistence
 
+import com.colosseum.backend.common.BaseTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.Instant
 import java.time.LocalDate
 import java.util.UUID
 
@@ -28,7 +28,4 @@ class StudyLogJpaEntity(
 
     @Column(name = "studied_at", nullable = false)
     val studiedAt: LocalDate = LocalDate.now(),
-
-    @Column(name = "created_at", nullable = false)
-    val createdAt: Instant = Instant.now(),
-)
+) : BaseTimeEntity()

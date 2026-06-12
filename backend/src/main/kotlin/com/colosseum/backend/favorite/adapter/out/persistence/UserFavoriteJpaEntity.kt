@@ -1,12 +1,12 @@
 package com.colosseum.backend.favorite.adapter.out.persistence
 
+import com.colosseum.backend.common.BaseTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.time.Instant
 import java.util.UUID
 
 @Entity
@@ -21,7 +21,4 @@ class UserFavoriteJpaEntity(
 
     @Column(name = "formula_id", nullable = false)
     val formulaId: Long = 0,
-
-    @Column(name = "created_at", nullable = false)
-    val createdAt: Instant = Instant.now(),
-)
+) : BaseTimeEntity()

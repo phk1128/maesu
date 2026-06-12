@@ -1,5 +1,6 @@
 package com.colosseum.backend.formula.adapter.out.persistence
 
+import com.colosseum.backend.common.BaseTimeEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -20,4 +21,4 @@ class CategoryJpaEntity(
 
     @Column(name = "sort_order")
     val sortOrder: Int = 0,
-)
+) : BaseTimeEntity()

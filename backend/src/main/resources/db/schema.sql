@@ -51,3 +51,27 @@ CREATE TABLE IF NOT EXISTS exam_schedules (
     note VARCHAR(200),
     UNIQUE(university_id, academic_year)
 );
+
+-- 유저 프로필 (소프트삭제 deleted_at 포함)
+CREATE TABLE IF NOT EXISTS users (
+    user_id     UUID PRIMARY KEY,
+    nickname    VARCHAR(100) NOT NULL,
+    avatar_url  TEXT,
+    kakao_name  VARCHAR(100),
+    email       VARCHAR(255),
+    created_at  TIMESTAMP NOT NULL DEFAULT NOW(),
+    modified_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at  TIMESTAMP NULL
+);
+
+-- BaseTimeEntity 공통 시간 컬럼: 전 테이블에 created_at/modified_at (멱등 — 기존 DB 백필 겸용)
+ALTER TABLE categories     ADD COLUMN IF NOT EXISTS created_at  TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE categories     ADD COLUMN IF NOT EXISTS modified_at TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE formulas       ADD COLUMN IF NOT EXISTS created_at  TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE formulas       ADD COLUMN IF NOT EXISTS modified_at TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE universities   ADD COLUMN IF NOT EXISTS created_at  TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE universities   ADD COLUMN IF NOT EXISTS modified_at TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE exam_schedules ADD COLUMN IF NOT EXISTS created_at  TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE exam_schedules ADD COLUMN IF NOT EXISTS modified_at TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE user_favorites ADD COLUMN IF NOT EXISTS modified_at TIMESTAMP NOT NULL DEFAULT NOW();
+ALTER TABLE study_logs     ADD COLUMN IF NOT EXISTS modified_at TIMESTAMP NOT NULL DEFAULT NOW();

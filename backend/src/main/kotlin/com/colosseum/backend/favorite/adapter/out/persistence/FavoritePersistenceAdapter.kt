@@ -22,7 +22,6 @@ class FavoritePersistenceAdapter(
             UserFavoriteJpaEntity(
                 userId = favorite.userId,
                 formulaId = favorite.formulaId,
-                createdAt = favorite.createdAt,
             )
         )
     }

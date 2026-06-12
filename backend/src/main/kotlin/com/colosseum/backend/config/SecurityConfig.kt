@@ -40,6 +40,9 @@ class SecurityConfig(
             allowedOrigins = listOf(
                 "http://localhost:5173",
                 "https://maesu.vercel.app",
+                "https://d10g4nh94fyj2h.cloudfront.net",
+            )
+            allowedOriginPatterns = listOf(
                 "https://maesu-*.vercel.app",
             )
             allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")

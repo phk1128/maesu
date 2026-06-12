@@ -90,6 +90,8 @@ export interface User {
   name: string;
   initial: string;
   joinedAt: number;
+  nickname?: string;
+  avatarUrl?: string | null;
 }
 
 export interface HistoryEntry {

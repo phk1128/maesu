@@ -99,6 +99,18 @@ async function authFetch<T>(path: string, options?: RequestInit): Promise<T> {
   return json.data;
 }
 
+export interface MeDto {
+  userId: string;
+  nickname: string;
+  avatarUrl: string | null;
+  kakaoName: string | null;
+  email: string | null;
+}
+
+export function fetchMe(): Promise<MeDto> {
+  return authFetch<MeDto>('/me');
+}
+
 export function fetchFavorites(): Promise<number[]> {
   return authFetch<number[]>('/favorites');
 }

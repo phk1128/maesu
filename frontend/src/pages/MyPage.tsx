@@ -70,15 +70,21 @@ export default function MyPage({ go, user, isPro, favorites, history, signOut, h
           borderRadius: 16, padding: 18,
           display: 'flex', alignItems: 'center', gap: 14,
         }}>
-          <div style={{
-            width: 52, height: 52, borderRadius: 999, background: 'var(--primary-light)',
-            color: 'var(--primary)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: 22, letterSpacing: '-0.02em',
-          }}>{user.initial}</div>
+          {user.avatarUrl ? (
+            <img src={user.avatarUrl} alt="" style={{
+              width: 52, height: 52, borderRadius: 999, objectFit: 'cover', flexShrink: 0,
+            }} />
+          ) : (
+            <div style={{
+              width: 52, height: 52, borderRadius: 999, background: 'var(--primary-light)',
+              color: 'var(--primary)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: 22, letterSpacing: '-0.02em',
+            }}>{user.initial}</div>
+          )}
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-              <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>{user.name}</span>
+              <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>{user.nickname || user.name}</span>
               {isPro && <ProBadge size="sm" />}
             </div>
             <div style={{ fontSize: 12.5, color: 'var(--text-muted)' }}>

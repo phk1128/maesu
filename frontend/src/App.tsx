@@ -2,8 +2,9 @@ import { useState, useCallback, useEffect } from 'react';
 import type { User, HistoryEntry, RouteState } from './types';
 import { SCHOOLS } from './data/mock';
 import { supabase } from './lib/supabase';
-import { fetchFavorites, toggleFavoriteApi, recordStudy, fetchStudyGrid } from './api/formulas';
+import { fetchFavorites, toggleFavoriteApi, recordStudy, fetchStudyGrid, fetchMe } from './api/formulas';
 import type { StudyGridResponse } from './api/formulas';
+import type { User as SbUser } from '@supabase/supabase-js';
 import BottomTab from './components/BottomTab';
 import Toast from './components/Toast';
 import HomePage from './pages/HomePage';
@@ -66,35 +67,32 @@ export default function App() {
     setTimeout(() => setToast(null), 1800);
   }, []);
 
+  // 세션 → user 상태 구성 + 서버 데이터(닉네임/북마크/잔디) 로드
+  const hydrateUser = useCallback((u: SbUser) => {
+    const name = u.user_metadata?.full_name || u.user_metadata?.name || '편입생';
+    setUser({
+      id: u.id,
+      name,
+      initial: name[0],
+      joinedAt: new Date(u.created_at).getTime(),
+    });
+    fetchFavorites().then(ids => setFavorites(ids.map(String))).catch(() => {});
+    fetchStudyGrid().then(setStudyGrid).catch(() => {});
+    // 백엔드에서 부여한 랜덤 닉네임 + 카카오 프로필 사진 병합
+    fetchMe()
+      .then(me => setUser(prev => (prev ? { ...prev, nickname: me.nickname, avatarUrl: me.avatarUrl } : prev)))
+      .catch(() => {});
+  }, []);
+
   // Supabase Auth 상태 관리
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        const u = session.user;
-        const name = u.user_metadata?.full_name || u.user_metadata?.name || '편입생';
-        setUser({
-          id: u.id,
-          name,
-          initial: name[0],
-          joinedAt: new Date(u.created_at).getTime(),
-        });
-        fetchFavorites().then(ids => setFavorites(ids.map(String))).catch(() => {});
-        fetchStudyGrid().then(setStudyGrid).catch(() => {});
-      }
+      if (session?.user) hydrateUser(session.user);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
-        const u = session.user;
-        const name = u.user_metadata?.full_name || u.user_metadata?.name || '편입생';
-        setUser({
-          id: u.id,
-          name,
-          initial: name[0],
-          joinedAt: new Date(u.created_at).getTime(),
-        });
-        fetchFavorites().then(ids => setFavorites(ids.map(String))).catch(() => {});
-        fetchStudyGrid().then(setStudyGrid).catch(() => {});
+        hydrateUser(session.user);
         if (event === 'SIGNED_IN') {
           setStack([{ route: 'home', params: {} }]);
         }
@@ -105,7 +103,7 @@ export default function App() {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [hydrateUser]);
 
   const setPrimarySchool = useCallback((id: string) => {
     setPrimarySchoolState(id);

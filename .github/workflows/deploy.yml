@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: 체크아웃
         uses: actions/checkout@v4
+        with:
+          # private 서브모듈(maesu-submodule)의 application.yml을 빌드 시 복사하므로 함께 체크아웃
+          submodules: recursive
+          token: ${{ secrets.SUBMODULE_TOKEN }}
 
       - name: JDK 21 설정
         uses: actions/setup-java@v4

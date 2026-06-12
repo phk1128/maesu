@@ -1,5 +1,7 @@
 import { supabase } from '../lib/supabase';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
 // 백엔드 API 클라이언트 — 하드코딩 데이터 없음
 
 export interface CategoryDto {
@@ -25,7 +27,7 @@ interface ApiResponse<T> {
 }
 
 async function apiFetch<T>(path: string): Promise<T> {
-  const res = await fetch(`/api${path}`);
+  const res = await fetch(`${API_BASE}/api${path}`);
   if (!res.ok) throw new Error(`API ${res.status}`);
   const json: ApiResponse<T> = await res.json();
   if (!json.success) throw new Error(json.error || 'Unknown error');
@@ -83,7 +85,7 @@ async function authFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) throw new Error('Not authenticated');
 
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`${API_BASE}/api${path}`, {
     ...options,
     headers: {
       ...options?.headers,

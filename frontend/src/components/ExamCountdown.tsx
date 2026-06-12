@@ -113,7 +113,7 @@ export default function ExamCountdown() {
                     <span style={{
                       fontSize: 11, color: uni.color, fontWeight: 600,
                       background: `${uni.color}14`, padding: '2px 7px', borderRadius: 4,
-                    }}>{curr.mathType}</span>
+                    }}>{curr.mathType === '수학단독' ? '수학 100%' : curr.mathType}</span>
                   )}
                 </div>
 

@@ -24,7 +24,6 @@ export default function FormulaCategoryPage({ go, params, favorites, toggleFavor
       .then(cats => {
         const filtered = cats.filter(c => c.area === area?.name);
         setCategories(filtered);
-        if (filtered.length > 0) setActiveCat(filtered[0].id);
         // 모든 카테고리 공식을 미리 로드 (캐시되므로 부담 없음)
         for (const cat of filtered) {
           fetchFormulasByCategory(cat.id)

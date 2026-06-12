@@ -31,4 +31,7 @@ class FavoritePersistenceAdapter(
     override fun delete(userId: UUID, formulaId: Long) {
         repo.deleteByUserIdAndFormulaId(userId, formulaId)
     }
+
+    override fun findPopularFormulaIds(limit: Int): List<Long> =
+        repo.findPopularFormulaIds(limit).map { it.getFormulaId() }
 }

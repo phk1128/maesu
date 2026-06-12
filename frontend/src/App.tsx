@@ -2,7 +2,8 @@ import { useState, useCallback, useEffect } from 'react';
 import type { User, HistoryEntry, RouteState } from './types';
 import { SCHOOLS } from './data/mock';
 import { supabase } from './lib/supabase';
-import { fetchFavorites, toggleFavoriteApi } from './api/formulas';
+import { fetchFavorites, toggleFavoriteApi, recordStudy, fetchStudyGrid } from './api/formulas';
+import type { StudyGridResponse } from './api/formulas';
 import BottomTab from './components/BottomTab';
 import Toast from './components/Toast';
 import HomePage from './pages/HomePage';
@@ -19,6 +20,7 @@ import MyPage from './pages/MyPage';
 import PaywallPage from './pages/PaywallPage';
 import AnalyzePage from './pages/AnalyzePage';
 import VariationsPage from './pages/VariationsPage';
+import FavoritesPage from './pages/FavoritesPage';
 
 export default function App() {
   const [stack, setStack] = useState<RouteState[]>(() => {
@@ -30,7 +32,7 @@ export default function App() {
   });
   const cur = stack[stack.length - 1];
 
-  const tabRoutes = ['home', 'formulas', 'exams', 'mypage'];
+  const tabRoutes = ['home', 'mypage'];
   const go = useCallback((route: string | number, params: Record<string, unknown> = {}) => {
     if (route === -1) {
       if (stack.length > 1) setStack(s => s.slice(0, -1));
@@ -54,6 +56,7 @@ export default function App() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [toast, setToast] = useState<string | null>(null);
+  const [studyGrid, setStudyGrid] = useState<StudyGridResponse | null>(null);
   const [primarySchool, setPrimarySchoolState] = useState<string | null>('hanyang');
 
   const hideAI = true;
@@ -76,6 +79,7 @@ export default function App() {
           joinedAt: new Date(u.created_at).getTime(),
         });
         fetchFavorites().then(ids => setFavorites(ids.map(String))).catch(() => {});
+        fetchStudyGrid().then(setStudyGrid).catch(() => {});
       }
     });
 
@@ -90,6 +94,7 @@ export default function App() {
           joinedAt: new Date(u.created_at).getTime(),
         });
         fetchFavorites().then(ids => setFavorites(ids.map(String))).catch(() => {});
+        fetchStudyGrid().then(setStudyGrid).catch(() => {});
         if (event === 'SIGNED_IN') {
           setStack([{ route: 'home', params: {} }]);
         }
@@ -117,7 +122,7 @@ export default function App() {
     // Optimistic update
     setFavorites(prev => {
       if (prev.includes(id)) {
-        showToast('즐겨찾기에서 제거됐어요');
+        showToast('북마크에서 제거됐어요');
         return prev.filter(x => x !== id);
       }
       showToast('저장됐어요');
@@ -135,6 +140,9 @@ export default function App() {
 
   const markStudied = useCallback((type: string, id: string | number) => {
     setHistory(prev => [{ type: type as HistoryEntry['type'], id, ts: Date.now() }, ...prev].slice(0, 50));
+    recordStudy(type, String(id))
+      .then(() => fetchStudyGrid().then(setStudyGrid).catch(() => {}))
+      .catch(() => {});
   }, []);
 
   const signOut = useCallback(async () => {
@@ -142,6 +150,7 @@ export default function App() {
     setUser(null);
     setFavorites([]);
     setHistory([]);
+    setStudyGrid(null);
     go('home');
     showToast('로그아웃 됐어요');
   }, [go, showToast]);
@@ -185,7 +194,9 @@ export default function App() {
       case 'login':
         return <LoginPage go={go} />;
       case 'mypage':
-        return <MyPage go={go} user={user} isPro={isPro} favorites={favorites} history={history} signOut={signOut} hideAI={hideAI} />;
+        return <MyPage go={go} user={user} isPro={isPro} favorites={favorites} history={history} signOut={signOut} hideAI={hideAI} studyGrid={studyGrid} />;
+      case 'favorites':
+        return <FavoritesPage go={go} favorites={favorites} toggleFavorite={toggleFavorite} />;
       case 'paywall':
         return <PaywallPage go={go} unlockPro={unlockPro} />;
       case 'analyze':

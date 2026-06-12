@@ -8,4 +8,5 @@ interface FavoritePort {
     fun exists(userId: UUID, formulaId: Long): Boolean
     fun save(favorite: UserFavorite)
     fun delete(userId: UUID, formulaId: Long)
+    fun findPopularFormulaIds(limit: Int): List<Long>
 }

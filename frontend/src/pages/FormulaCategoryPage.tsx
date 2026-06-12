@@ -25,18 +25,16 @@ export default function FormulaCategoryPage({ go, params, favorites, toggleFavor
         const filtered = cats.filter(c => c.area === area?.name);
         setCategories(filtered);
         if (filtered.length > 0) setActiveCat(filtered[0].id);
+        // 모든 카테고리 공식을 미리 로드 (캐시되므로 부담 없음)
+        for (const cat of filtered) {
+          fetchFormulasByCategory(cat.id)
+            .then(formulas => setFormulaMap(prev => ({ ...prev, [cat.id]: formulas })))
+            .catch(() => {});
+        }
       })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [area?.name]);
-
-  // 카테고리 열릴 때 공식 로드
-  useEffect(() => {
-    if (activeCat == null || formulaMap[activeCat]) return;
-    fetchFormulasByCategory(activeCat)
-      .then(formulas => setFormulaMap(prev => ({ ...prev, [activeCat]: formulas })))
-      .catch(() => {});
-  }, [activeCat]);
 
   if (!area) return null;
 
@@ -83,18 +81,11 @@ export default function FormulaCategoryPage({ go, params, favorites, toggleFavor
                     padding: '14px 16px', textAlign: 'left',
                     display: 'flex', alignItems: 'center', gap: 12,
                   }}>
-                    <div style={{
-                      width: 28, height: 28, borderRadius: 8,
-                      background: `${area.color}18`, color: area.color,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-serif)', fontWeight: 600, fontSize: 13,
-                      flexShrink: 0,
-                    }}>{cat.name.charAt(0)}</div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 14.5, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.01em', marginBottom: 2 }}>{cat.name}</div>
-                      <div style={{ fontSize: 11.5, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-                        {formulas ? `${formulas.length}개 공식` : '...'}
-                      </div>
+                      <div style={{ fontSize: 14.5, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>{cat.name}</div>
+                    </div>
+                    <div style={{ fontSize: 12, color: 'var(--text-muted)', flexShrink: 0 }}>
+                      {formulas ? `${formulas.length}개` : ''}
                     </div>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transition: 'transform 200ms', transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}>
                       <path d="M6 9l6 6 6-6"/>
@@ -145,7 +136,7 @@ export default function FormulaCategoryPage({ go, params, favorites, toggleFavor
                                   color: isFav ? 'var(--primary)' : 'var(--text-muted)',
                                 }}>
                                   <svg width="16" height="16" viewBox="0 0 24 24" fill={isFav ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
                                   </svg>
                                 </button>
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M9 18l6-6-6-6" /></svg>

@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react';
 import type { User, GoFn } from '../types';
-import { SCHOOLS, CONTRIB_GRID, TOTAL_STUDIED, CURRENT_STREAK } from '../data/mock';
+import type { FormulaDto } from '../api/formulas';
+import { fetchPopularFormulas } from '../api/formulas';
+import { SCHOOLS } from '../data/mock';
 import { AREAS } from '../data/formulas';
-import Logo from '../components/Logo';
 import ExamCountdown from '../components/ExamCountdown';
-import ContributionGrid from '../components/ContributionGrid';
+import TexTitle from '../components/TexTitle';
 import FeatureTile from '../components/FeatureTile';
 import TileChips from '../components/TileChips';
 import TileMiniAnalyze from '../components/TileMiniAnalyze';
@@ -21,76 +23,80 @@ interface HomePageProps {
 export default function HomePage({ go, user, signIn: _signIn, primarySchool, setPrimarySchool: _setPrimarySchool, hideAI }: HomePageProps) {
   void _signIn;
   void _setPrimarySchool;
-  const school = SCHOOLS.find(s => s.id === primarySchool);
+  void primarySchool;
+
+  const [popular, setPopular] = useState<FormulaDto[]>([]);
+  useEffect(() => {
+    fetchPopularFormulas().then(setPopular).catch(() => {});
+  }, []);
   return (
     <div style={{ paddingBottom: 100, minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
-      {/* 상단 인사 */}
+      {/* 상단 */}
       <div style={{ padding: '14px 20px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Logo />
-          <span style={{
-            fontFamily: 'var(--font-serif)', fontSize: 16, fontWeight: 600,
-            color: 'var(--text-primary)', letterSpacing: '-0.01em',
-          }}>편입수학</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          <button style={{
-            background: 'none', border: 'none', padding: 8, cursor: 'pointer',
-            color: 'var(--text-secondary)',
+        <span style={{
+          fontSize: 18, fontWeight: 700, color: 'var(--text-primary)',
+          letterSpacing: '0.04em',
+        }}>MAESU</span>
+        <button onClick={() => go(user ? 'mypage' : 'login')} style={{
+          background: 'none', border: 'none', cursor: 'pointer', padding: 4,
+        }}>
+          <div style={{
+            width: 32, height: 32, borderRadius: 999,
+            background: user ? 'var(--primary-light)' : 'var(--border)',
+            color: user ? 'var(--primary)' : 'var(--text-muted)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.5 0"/>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
             </svg>
-          </button>
-          {user ? (
-            <button onClick={() => go('mypage')} style={{
-              background: 'none', border: 'none', cursor: 'pointer', padding: 4,
-            }}>
-              <div style={{
-                width: 30, height: 30, borderRadius: 999, background: 'var(--primary-light)',
-                color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontWeight: 600, fontSize: 13,
-              }}>{user.initial}</div>
-            </button>
-          ) : (
-            <button onClick={() => go('login')} style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)',
-              padding: '6px 10px',
-            }}>로그인</button>
-          )}
-        </div>
+          </div>
+        </button>
       </div>
 
       {/* 편입 시험 D-day 카운트다운 */}
       <div style={{ padding: '14px 20px 18px' }}>
-        <ExamCountdown
-          user={user}
-          school={school}
-          onOpenSchedule={() => go('exam-schedule')}
-          onSetSchool={() => go('exam-schedule', { setMode: true })}
-        />
+        <ExamCountdown />
       </div>
 
-      {/* 잔디 (로그인 상태) */}
-      {user && (
+      {/* 인기 북마크 공식 Top 3 */}
+      {popular.length > 0 && (
         <div style={{ padding: '0 20px 20px' }}>
-          <ContributionGrid data={CONTRIB_GRID} totalStudied={TOTAL_STUDIED} streak={CURRENT_STREAK} />
+          <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 10 }}>
+            중요 공식 Top 3
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {popular.map((f, i) => (
+              <div key={f.id} onClick={() => go('formula-detail', { id: f.id, categoryId: f.categoryId })} style={{
+                background: 'var(--surface)', border: '1px solid var(--border)',
+                borderRadius: 12, padding: '12px 14px', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 12,
+                transition: 'border-color 150ms',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-strong)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+              >
+                <span style={{
+                  width: 22, height: 22, borderRadius: 6,
+                  background: 'var(--primary-light)', color: 'var(--primary)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 11, fontWeight: 700, flexShrink: 0,
+                }}>{i + 1}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{
+                    fontSize: 14.5, fontWeight: 600, color: 'var(--text-primary)',
+                    letterSpacing: '-0.01em',
+                  }}><TexTitle>{f.title}</TexTitle></div>
+                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
       {/* 메인 타일 */}
       <div style={{ padding: '0 20px 20px' }}>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600,
-          color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '0.08em',
-          marginBottom: 4,
-        }}>학습 메뉴</div>
-        <h2 style={{
-          fontFamily: 'var(--font-serif)', fontSize: 20, fontWeight: 600,
-          color: 'var(--text-primary)', margin: '0 0 14px', letterSpacing: '-0.02em',
-        }}>무엇을 학습할까요?</h2>
-
+        <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 10 }}>학습 메뉴</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           <FeatureTile
             title="공식"

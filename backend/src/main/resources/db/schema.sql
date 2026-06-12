@@ -22,3 +22,32 @@ CREATE TABLE IF NOT EXISTS user_favorites (
     UNIQUE(user_id, formula_id)
 );
 CREATE INDEX IF NOT EXISTS idx_user_favorites_user_id ON user_favorites(user_id);
+
+CREATE TABLE IF NOT EXISTS study_logs (
+    id BIGSERIAL PRIMARY KEY,
+    user_id UUID NOT NULL,
+    activity_type VARCHAR(20) NOT NULL,
+    target_id VARCHAR(50) NOT NULL,
+    studied_at DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    UNIQUE(user_id, activity_type, target_id, studied_at)
+);
+CREATE INDEX IF NOT EXISTS idx_study_logs_user_date ON study_logs(user_id, studied_at);
+
+CREATE TABLE IF NOT EXISTS universities (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    short_name VARCHAR(20) NOT NULL,
+    color VARCHAR(7) NOT NULL,
+    sort_order INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS exam_schedules (
+    id BIGSERIAL PRIMARY KEY,
+    university_id BIGINT NOT NULL REFERENCES universities(id),
+    academic_year INT NOT NULL,
+    exam_date DATE,
+    math_type VARCHAR(20) NOT NULL,
+    note VARCHAR(200),
+    UNIQUE(university_id, academic_year)
+);

@@ -104,3 +104,67 @@ export function fetchFavorites(): Promise<number[]> {
 export function toggleFavoriteApi(formulaId: number): Promise<{ added: boolean; formulaId: number }> {
   return authFetch('/favorites/' + formulaId, { method: 'POST' });
 }
+
+// --- 학습 기록 API ---
+
+export function recordStudy(activityType: string, targetId: string): Promise<void> {
+  return authFetch('/study-logs', {
+    method: 'POST',
+    body: JSON.stringify({ activityType, targetId }),
+  });
+}
+
+export interface DailyCountDto {
+  date: string;   // "2026-06-12"
+  count: number;
+}
+
+export interface StudyGridResponse {
+  dailyCounts: DailyCountDto[];
+  totalStudied: number;
+  streak: number;
+}
+
+export function fetchStudyGrid(weeks: number = 18): Promise<StudyGridResponse> {
+  return authFetch<StudyGridResponse>(`/study-logs/grid?weeks=${weeks}`);
+}
+
+// --- 대학교/시험일정 API (공개) ---
+
+export interface ExamScheduleDto {
+  academicYear: number;
+  examDate: string | null;
+  mathType: string;
+  note: string | null;
+}
+
+export interface UniversityExamDto {
+  id: number;
+  name: string;
+  shortName: string;
+  color: string;
+  currentYear: ExamScheduleDto | null;
+  previousYear: ExamScheduleDto | null;
+}
+
+let popularCache: Promise<FormulaDto[]> | null = null;
+
+export function fetchPopularFormulas(): Promise<FormulaDto[]> {
+  if (popularCache) return popularCache;
+  popularCache = apiFetch<FormulaDto[]>('/formulas/popular?limit=3').catch(err => {
+    popularCache = null;
+    throw err;
+  });
+  return popularCache;
+}
+
+let universitiesCache: Promise<UniversityExamDto[]> | null = null;
+
+export function fetchUniversities(): Promise<UniversityExamDto[]> {
+  if (universitiesCache) return universitiesCache;
+  universitiesCache = apiFetch<UniversityExamDto[]>('/universities?mathType=수학단독').catch(err => {
+    universitiesCache = null;
+    throw err;
+  });
+  return universitiesCache;
+}

@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import type { GoFn, User, HistoryEntry } from '../types';
-import { CONTRIB_GRID, TOTAL_STUDIED, CURRENT_STREAK, getFormula } from '../data/mock';
+import type { StudyGridResponse } from '../api/formulas';
+import { buildContribGrid } from '../utils/studyGrid';
 import AppHeader from '../components/AppHeader';
 import EmptyState from '../components/EmptyState';
-import PrimaryButton from '../components/PrimaryButton';
-import SecondaryButton from '../components/SecondaryButton';
 import ContributionGrid from '../components/ContributionGrid';
 import ProBadge from '../components/ProBadge';
-import FormulaRow from '../components/FormulaRow';
 import SectionHeader from '../components/SectionHeader';
 import StatCard from '../components/StatCard';
 import SettingRow from '../components/SettingRow';
+import PrimaryButton from '../components/PrimaryButton';
 
 interface MyPageProps {
   go: GoFn;
@@ -20,21 +19,22 @@ interface MyPageProps {
   history: HistoryEntry[];
   signOut: () => void;
   hideAI?: boolean;
+  studyGrid: StudyGridResponse | null;
 }
 
-export default function MyPage({ go, user, isPro, favorites, history, signOut, hideAI }: MyPageProps) {
+export default function MyPage({ go, user, isPro, favorites, history, signOut, hideAI, studyGrid }: MyPageProps) {
   const [now] = useState(() => Date.now());
   const daysSince = user ? Math.max(1, Math.floor((now - user.joinedAt) / 86400000)) : 0;
 
   if (!user) {
     return (
       <div style={{ paddingBottom: 110 }}>
-        <AppHeader title="내정보" large />
+        <AppHeader title="My Page" large />
         <div style={{ padding: '32px 24px' }}>
           <EmptyState
             icon={<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>}
             title="로그인하면 더 편해요"
-            body="즐겨찾기 공식과 학습 기록을 저장할 수 있어요."
+            body="북마크한 공식과 학습 기록을 저장할 수 있어요."
             action={
               <button onClick={() => go('login')} style={{
                 height: 46, padding: '0 24px',
@@ -55,12 +55,13 @@ export default function MyPage({ go, user, isPro, favorites, history, signOut, h
     );
   }
 
+  const { grid, totalStudied, streak } = buildContribGrid(studyGrid);
   const totalProblems = history.filter(h => h.type === 'problem').length;
   const totalAnalyze = history.filter(h => h.type === 'analyze').length + history.filter(h => h.type === 'variation').length;
 
   return (
     <div style={{ paddingBottom: 110 }}>
-      <AppHeader title="내정보" large />
+      <AppHeader title="My Page" large />
 
       {/* 프로필 */}
       <div style={{ padding: '0 20px 20px' }}>
@@ -81,7 +82,7 @@ export default function MyPage({ go, user, isPro, favorites, history, signOut, h
               {isPro && <ProBadge size="sm" />}
             </div>
             <div style={{ fontSize: 12.5, color: 'var(--text-muted)' }}>
-              학습 {daysSince}일째 · 현재 연속 {CURRENT_STREAK}일 🔥
+              학습 {daysSince}일째 · 현재 연속 {streak}일 🔥
             </div>
           </div>
         </div>
@@ -89,17 +90,16 @@ export default function MyPage({ go, user, isPro, favorites, history, signOut, h
 
       {/* 잔디 */}
       <div style={{ padding: '0 20px 24px' }}>
-        <ContributionGrid data={CONTRIB_GRID} totalStudied={TOTAL_STUDIED} streak={CURRENT_STREAK} />
+        <ContributionGrid data={grid} totalStudied={totalStudied} streak={streak} />
       </div>
 
       {/* 통계 */}
       <div style={{ padding: '0 20px 28px' }}>
-        <SectionHeader icon="📊" label="학습 현황" />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-          <StatCard label="즐겨찾기" value={favorites.length} unit="공식" />
+          <StatCard label="북마크" value={favorites.length} unit="공식" />
           <StatCard label="푼 기출" value={totalProblems} unit="문제" />
           {hideAI
-            ? <StatCard label="학습 공식" value={history.filter(h => h.type === 'formula').length} unit="개" />
+            ? <StatCard label="학습 공식" value={totalStudied} unit="개" />
             : <StatCard label="AI 분석" value={totalAnalyze} unit="회" />}
         </div>
       </div>
@@ -124,50 +124,72 @@ export default function MyPage({ go, user, isPro, favorites, history, signOut, h
         </div>
       )}
 
-      {/* 즐겨찾기 공식 */}
+      {/* 북마크 */}
       <div style={{ padding: '0 20px 28px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <SectionHeader icon="❤️" label="즐겨찾기 공식" />
-          {favorites.length > 0 && <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{favorites.length}개</span>}
-        </div>
-        {favorites.length === 0 ? (
+        <div onClick={() => favorites.length > 0 ? go('favorites') : go('formulas')} style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 14, padding: 16, cursor: 'pointer',
+          display: 'flex', alignItems: 'center', gap: 14,
+          transition: 'border-color 150ms',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-strong)'; }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+        >
           <div style={{
-            background: 'var(--surface)', border: '1px dashed var(--border-strong)',
-            borderRadius: 12, padding: '24px 16px', textAlign: 'center',
+            width: 40, height: 40, borderRadius: 10,
+            background: 'var(--primary-light)', color: 'var(--primary)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
           }}>
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 12px', lineHeight: 1.55 }}>
-              자주 보는 공식을 저장해두세요.
-            </p>
-            <SecondaryButton size="sm" onClick={() => go('formulas')}>공식 보러가기</SecondaryButton>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>
+            </svg>
           </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {favorites.slice(0, 3).map(id => {
-              const f = getFormula(id);
-              if (!f) return null;
-              return <FormulaRow key={id} formula={f} compact onClick={() => go('formula-detail', { id })} />;
-            })}
-            {favorites.length > 3 && (
-              <button onClick={() => go('formulas')} style={{
-                background: 'none', border: 'none', cursor: 'pointer', padding: 8,
-                fontSize: 12.5, color: 'var(--text-secondary)', textAlign: 'center',
-              }}>전체 {favorites.length}개 보기 →</button>
-            )}
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 14.5, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.01em', marginBottom: 2 }}>
+              북마크 공식
+            </div>
+            <div style={{ fontSize: 12.5, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+              {favorites.length > 0 ? `${favorites.length}개 저장됨` : '저장된 공식이 없어요'}
+            </div>
           </div>
-        )}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
       </div>
 
       {/* 설정 */}
       <div style={{ padding: '0 20px 0' }}>
-        <SectionHeader icon="⚙️" label="설정" />
+        <SectionHeader label="설정" />
         <div style={{
           background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 12, overflow: 'hidden',
         }}>
-          <SettingRow label="알림 설정" right={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>} />
-          <SettingRow label="결제 / 구독 관리" right={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>} />
-          <SettingRow label="문의하기" right={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>} />
-          <SettingRow label="버전 정보" right={<span style={{ fontSize: 12, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>v0.2.0 beta</span>} isLast />
+          <SettingRow label={
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.5 0"/>
+              </svg>
+              알림 설정
+            </span>
+          } right={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>} />
+          <SettingRow label={
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <defs>
+                  <linearGradient id="ig" x1="0" y1="1" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#FFDC80"/>
+                    <stop offset="25%" stopColor="#F77737"/>
+                    <stop offset="50%" stopColor="#E1306C"/>
+                    <stop offset="75%" stopColor="#C13584"/>
+                    <stop offset="100%" stopColor="#833AB4"/>
+                  </linearGradient>
+                </defs>
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="url(#ig)"/>
+                <circle cx="12" cy="12" r="5" stroke="url(#ig)"/>
+                <circle cx="17.5" cy="6.5" r="1.5" fill="url(#ig)" stroke="none"/>
+              </svg>
+              DM으로 문의하기
+            </span>
+          } right={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>} isLast />
         </div>
       </div>
 

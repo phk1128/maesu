@@ -1485,3 +1485,66 @@ INSERT INTO formulas (id, category_id, title, content_md, svg, sort_order) VALUE
 
 SELECT setval(pg_get_serial_sequence('categories','id'), (SELECT MAX(id) FROM categories));
 SELECT setval(pg_get_serial_sequence('formulas','id'),   (SELECT MAX(id) FROM formulas));
+
+-- 편입수학 시행 대학교
+INSERT INTO universities (id, name, short_name, color, sort_order) VALUES
+  (1,  '한양대학교',       '한양대',   '#002F6C', 1),
+  (2,  '성균관대학교',     '성균관대', '#004B2D', 2),
+  (3,  '중앙대학교',       '중앙대',   '#00529B', 3),
+  (4,  '이화여자대학교',   '이화여대', '#00462A', 4),
+  (5,  '경희대학교',       '경희대',   '#8B0000', 5),
+  (6,  '건국대학교',       '건국대',   '#036B3F', 6),
+  (7,  '숙명여자대학교',   '숙명여대', '#003876', 7),
+  (8,  '홍익대학교',       '홍익대',   '#C8102E', 8),
+  (9,  '세종대학교',       '세종대',   '#8B1A1A', 9),
+  (10, '아주대학교',       '아주대',   '#0033A0', 10),
+  (11, '인하대학교',       '인하대',   '#003D7C', 11),
+  (12, '숭실대학교',       '숭실대',   '#461D7C', 12),
+  (13, '단국대학교',       '단국대',   '#003366', 13),
+  (14, '광운대학교',       '광운대',   '#8C1515', 14),
+  (15, '가천대학교',       '가천대',   '#004EA2', 15),
+  (16, '한국항공대학교',   '항공대',   '#003478', 16)
+ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, short_name = EXCLUDED.short_name, color = EXCLUDED.color, sort_order = EXCLUDED.sort_order;
+
+-- 2026학년도 시험 일정 (2025년 12월 ~ 2026년 1월 시행)
+INSERT INTO exam_schedules (id, university_id, academic_year, exam_date, math_type, note) VALUES
+  (1,  1,  2026, '2026-01-10', '수학단독', '자연계 수학 단독 100%'),
+  (2,  2,  2026, '2026-01-03', '영어+수학', NULL),
+  (3,  3,  2026, '2025-12-21', '수학단독', '자연계 수학 단독 100%'),
+  (4,  4,  2026, '2025-12-21', '수학단독', '자연계 수학 단독 100%'),
+  (5,  5,  2026, '2025-12-27', '수학단독', '수학 90% + 공인영어 10%'),
+  (6,  6,  2026, '2025-12-24', '영어+수학', NULL),
+  (7,  7,  2026, '2025-12-20', '수학단독', '자연계 수학 단독 100%'),
+  (8,  8,  2026, '2026-01-02', '영어+수학', '영어 25문항 + 수학 15문항'),
+  (9,  9,  2026, '2026-01-23', '수학단독', '수학 단독 100%'),
+  (10, 10, 2026, '2026-01-05', '영어+수학', NULL),
+  (11, 11, 2026, '2026-01-09', '영어+수학', NULL),
+  (12, 12, 2026, '2026-01-13', '영어+수학', NULL),
+  (13, 13, 2026, '2025-12-30', '수학단독', '수학 90% + 전적대 10%'),
+  (14, 14, 2026, '2026-01-07', '영어+수학', NULL),
+  (15, 15, 2026, '2025-12-19', '수학단독', '수학 단독 100%'),
+  (16, 16, 2026, '2025-12-13', '영어+수학', NULL)
+ON CONFLICT (id) DO UPDATE SET university_id = EXCLUDED.university_id, academic_year = EXCLUDED.academic_year, exam_date = EXCLUDED.exam_date, math_type = EXCLUDED.math_type, note = EXCLUDED.note;
+
+-- 2027학년도 시험 일정 (미발표)
+INSERT INTO exam_schedules (id, university_id, academic_year, exam_date, math_type, note) VALUES
+  (17, 1,  2027, NULL, '수학단독', NULL),
+  (18, 2,  2027, NULL, '영어+수학', NULL),
+  (19, 3,  2027, NULL, '수학단독', NULL),
+  (20, 4,  2027, NULL, '수학단독', NULL),
+  (21, 5,  2027, NULL, '수학단독', NULL),
+  (22, 6,  2027, NULL, '영어+수학', NULL),
+  (23, 7,  2027, NULL, '수학단독', NULL),
+  (24, 8,  2027, NULL, '영어+수학', NULL),
+  (25, 9,  2027, NULL, '수학단독', NULL),
+  (26, 10, 2027, NULL, '영어+수학', NULL),
+  (27, 11, 2027, NULL, '영어+수학', NULL),
+  (28, 12, 2027, NULL, '영어+수학', NULL),
+  (29, 13, 2027, NULL, '수학단독', NULL),
+  (30, 14, 2027, NULL, '영어+수학', NULL),
+  (31, 15, 2027, NULL, '수학단독', NULL),
+  (32, 16, 2027, NULL, '영어+수학', NULL)
+ON CONFLICT (id) DO UPDATE SET university_id = EXCLUDED.university_id, academic_year = EXCLUDED.academic_year, exam_date = EXCLUDED.exam_date, math_type = EXCLUDED.math_type, note = EXCLUDED.note;
+
+SELECT setval(pg_get_serial_sequence('universities','id'),    (SELECT MAX(id) FROM universities));
+SELECT setval(pg_get_serial_sequence('exam_schedules','id'),  (SELECT MAX(id) FROM exam_schedules));

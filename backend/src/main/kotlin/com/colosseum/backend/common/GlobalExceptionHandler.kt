@@ -12,6 +12,10 @@ class GlobalExceptionHandler {
     fun handleAccessDenied(ex: org.springframework.security.access.AccessDeniedException): ResponseEntity<ApiResponse<Nothing>> =
         ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse.fail("접근 권한이 없습니다"))
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleBadRequest(ex: IllegalArgumentException): ResponseEntity<ApiResponse<Nothing>> =
+        ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.fail(ex.message ?: "잘못된 요청입니다"))
+
     @ExceptionHandler(NoSuchElementException::class)
     fun handleNotFound(ex: NoSuchElementException): ResponseEntity<ApiResponse<Nothing>> =
         ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.fail(ex.message ?: "리소스를 찾을 수 없습니다"))

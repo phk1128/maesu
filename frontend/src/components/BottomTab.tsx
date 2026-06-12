@@ -6,8 +6,6 @@ interface BottomTabProps {
 export default function BottomTab({ active, onChange }: BottomTabProps) {
   const tabs = [
     { id: 'home', label: '홈', icon: <path d="M3 12l9-9 9 9M5 10v10h4v-6h6v6h4V10"/> },
-    { id: 'formulas', label: '공식', icon: <><path d="M4 6h16M4 12h16M4 18h10"/></> },
-    { id: 'exams', label: '기출', icon: <><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></> },
     { id: 'mypage', label: '내정보', icon: <><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></> },
   ];
   return (

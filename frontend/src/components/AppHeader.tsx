@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 interface AppHeaderProps {
-  title?: string;
+  title?: ReactNode;
   showBack?: boolean;
   onBack?: () => void;
   right?: ReactNode;

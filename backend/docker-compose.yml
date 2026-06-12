@@ -8,4 +8,5 @@ services:
       - DB_URL=${DB_URL}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
+      - SUPABASE_JWK_SET_URI=${SUPABASE_JWK_SET_URI}
     restart: unless-stopped

@@ -71,6 +71,7 @@ jobs:
             export DB_URL=${{ secrets.DB_URL }}
             export DB_USERNAME=${{ secrets.DB_USERNAME }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            export SUPABASE_JWK_SET_URI=${{ secrets.SUPABASE_JWK_SET_URI }}
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/maesu-backend:latest
             cd ~/deploy
             docker compose down

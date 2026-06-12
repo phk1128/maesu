@@ -1,0 +1,3 @@
+[submodule "maesu-submodule"]
+	path = maesu-submodule
+	url = https://github.com/phk1128/maesu-submodule.git

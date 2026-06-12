@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import type { User, HistoryEntry, RouteState } from './types';
 import { SCHOOLS } from './data/mock';
+import { supabase } from './lib/supabase';
+import { fetchFavorites, toggleFavoriteApi } from './api/formulas';
 import BottomTab from './components/BottomTab';
 import Toast from './components/Toast';
 import HomePage from './pages/HomePage';
@@ -61,6 +63,45 @@ export default function App() {
     setTimeout(() => setToast(null), 1800);
   }, []);
 
+  // Supabase Auth 상태 관리
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        const u = session.user;
+        const name = u.user_metadata?.full_name || u.user_metadata?.name || '편입생';
+        setUser({
+          id: u.id,
+          name,
+          initial: name[0],
+          joinedAt: new Date(u.created_at).getTime(),
+        });
+        fetchFavorites().then(ids => setFavorites(ids.map(String))).catch(() => {});
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        const u = session.user;
+        const name = u.user_metadata?.full_name || u.user_metadata?.name || '편입생';
+        setUser({
+          id: u.id,
+          name,
+          initial: name[0],
+          joinedAt: new Date(u.created_at).getTime(),
+        });
+        fetchFavorites().then(ids => setFavorites(ids.map(String))).catch(() => {});
+        if (event === 'SIGNED_IN') {
+          setStack([{ route: 'home', params: {} }]);
+        }
+      } else {
+        setUser(null);
+        setFavorites([]);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   const setPrimarySchool = useCallback((id: string) => {
     setPrimarySchoolState(id);
     const s = SCHOOLS.find(x => x.id === id);
@@ -68,26 +109,44 @@ export default function App() {
   }, [showToast]);
 
   const toggleFavorite = useCallback((id: string) => {
+    if (!user) {
+      showToast('로그인이 필요합니다');
+      return;
+    }
+
+    // Optimistic update
     setFavorites(prev => {
-      if (prev.includes(id)) { showToast('즐겨찾기에서 제거됐어요'); return prev.filter(x => x !== id); }
-      showToast('저장됐어요'); return [...prev, id];
+      if (prev.includes(id)) {
+        showToast('즐겨찾기에서 제거됐어요');
+        return prev.filter(x => x !== id);
+      }
+      showToast('저장됐어요');
+      return [...prev, id];
     });
-  }, [showToast]);
+
+    // API 호출 (실패 시 롤백)
+    toggleFavoriteApi(Number(id)).catch(() => {
+      setFavorites(prev =>
+        prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+      );
+      showToast('저장에 실패했어요');
+    });
+  }, [user, showToast]);
 
   const markStudied = useCallback((type: string, id: string | number) => {
     setHistory(prev => [{ type: type as HistoryEntry['type'], id, ts: Date.now() }, ...prev].slice(0, 50));
   }, []);
 
-  const signIn = useCallback(() => {
-    setUser({ name: '편입생', initial: '편', joinedAt: Date.now() - 86400000 * 22 });
-    setFavorites(['integration-by-parts', 'det-2x2']);
+  const signOut = useCallback(async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setFavorites([]);
+    setHistory([]);
     go('home');
-    setTimeout(() => showToast('환영합니다!'), 200);
+    showToast('로그아웃 됐어요');
   }, [go, showToast]);
 
-  const signOut = useCallback(() => {
-    setUser(null); setFavorites([]); setHistory([]); go('home'); showToast('로그아웃 됐어요');
-  }, [go, showToast]);
+  const goToLogin = useCallback(() => go('login'), [go]);
 
   const unlockPro = useCallback(() => {
     setIsPro(true);
@@ -106,7 +165,7 @@ export default function App() {
   const renderPage = () => {
     switch (cur.route) {
       case 'home':
-        return <HomePage go={go} user={user} signIn={signIn} primarySchool={primarySchool} setPrimarySchool={setPrimarySchool} hideAI={hideAI} />;
+        return <HomePage go={go} user={user} signIn={goToLogin} primarySchool={primarySchool} setPrimarySchool={setPrimarySchool} hideAI={hideAI} />;
       case 'formulas':
         return <FormulasPage go={go} />;
       case 'formula-category':
@@ -124,7 +183,7 @@ export default function App() {
       case 'exam-detail':
         return <ExamDetailPage go={go} params={cur.params} markStudied={user ? markStudied : null} hideAI={hideAI} />;
       case 'login':
-        return <LoginPage go={go} signIn={signIn} />;
+        return <LoginPage go={go} />;
       case 'mypage':
         return <MyPage go={go} user={user} isPro={isPro} favorites={favorites} history={history} signOut={signOut} hideAI={hideAI} />;
       case 'paywall':
@@ -134,7 +193,7 @@ export default function App() {
       case 'variations':
         return <VariationsPage go={go} isPro={isPro} unlockPro={unlockPro} markStudied={user ? markStudied : null} />;
       default:
-        return <HomePage go={go} user={user} signIn={signIn} primarySchool={primarySchool} setPrimarySchool={setPrimarySchool} hideAI={hideAI} />;
+        return <HomePage go={go} user={user} signIn={goToLogin} primarySchool={primarySchool} setPrimarySchool={setPrimarySchool} hideAI={hideAI} />;
     }
   };
 

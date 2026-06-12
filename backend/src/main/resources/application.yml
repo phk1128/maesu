@@ -21,6 +21,12 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
 
+spring.security:
+  oauth2:
+    resourceserver:
+      jwt:
+        jwk-set-uri: https://whyumsehphqhenqvxwuo.supabase.co/auth/v1/.well-known/jwks.json
+
 logging:
   level:
     com.colosseum.backend: DEBUG

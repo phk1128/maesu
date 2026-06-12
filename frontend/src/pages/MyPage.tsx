@@ -35,7 +35,20 @@ export default function MyPage({ go, user, isPro, favorites, history, signOut, h
             icon={<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>}
             title="로그인하면 더 편해요"
             body="즐겨찾기 공식과 학습 기록을 저장할 수 있어요."
-            action={<PrimaryButton size="md" onClick={() => go('login')}>카카오로 시작하기</PrimaryButton>}
+            action={
+              <button onClick={() => go('login')} style={{
+                height: 46, padding: '0 24px',
+                background: '#FEE500', color: 'rgba(0,0,0,0.85)',
+                border: 'none', borderRadius: 12,
+                fontSize: 14.5, fontWeight: 600, cursor: 'pointer',
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+              }}>
+                <svg width="18" height="18" viewBox="0 0 256 256" fill="none">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M128 36C70.562 36 24 72.713 24 117.665C24 146.566 43.17 172.094 72.292 186.381L61.146 224.867C60.333 227.654 63.554 229.876 65.987 228.276L111.489 198.136C116.878 198.72 122.394 199.33 128 199.33C185.438 199.33 232 162.617 232 117.665C232 72.713 185.438 36 128 36Z" fill="black"/>
+                </svg>
+                카카오 로그인
+              </button>
+            }
           />
         </div>
       </div>

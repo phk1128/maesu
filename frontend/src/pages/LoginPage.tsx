@@ -1,13 +1,19 @@
-import { useState } from 'react';
 import type { GoFn } from '../types';
+import { supabase } from '../lib/supabase';
 
 interface LoginPageProps {
   go: GoFn;
-  signIn: () => void;
 }
 
-export default function LoginPage({ go, signIn }: LoginPageProps) {
-  const [agreed, setAgreed] = useState(false);
+export default function LoginPage({ go }: LoginPageProps) {
+  const handleKakaoLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'kakao',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+  };
 
   return (
     <div style={{ minHeight: '100%', display: 'flex', flexDirection: 'column', paddingBottom: 36 }}>
@@ -19,25 +25,11 @@ export default function LoginPage({ go, signIn }: LoginPageProps) {
         </button>
       </div>
 
-      <div style={{ flex: 1, padding: '20px 28px 0', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ textAlign: 'center', marginTop: 24, marginBottom: 48 }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 14, background: 'var(--primary)',
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', fontFamily: 'var(--font-serif)', fontWeight: 700,
-            fontSize: 28, letterSpacing: '-0.02em', marginBottom: 24,
-            boxShadow: '0 8px 24px -8px rgba(217,119,87,0.4)',
-          }}>편</div>
-          <h1 style={{
-            fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 600,
-            color: 'var(--text-primary)', margin: '0 0 8px', letterSpacing: '-0.02em',
-          }}>환영합니다</h1>
-          <p style={{ fontSize: 14.5, color: 'var(--text-secondary)', margin: 0, lineHeight: 1.55 }}>
-            로그인하면 학습 기록이 잔디로 쌓여요
-          </p>
-        </div>
-
+      <div style={{ flex: 1, padding: '20px 28px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         {/* 미리보기 잔디 */}
+        <p style={{ fontSize: 14.5, color: 'var(--text-secondary)', textAlign: 'center', margin: '0 0 20px', lineHeight: 1.55 }}>
+          로그인하면 학습 기록이 잔디로 쌓여요
+        </p>
         <div style={{
           background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 14, padding: 14, marginBottom: 28,
@@ -48,7 +40,6 @@ export default function LoginPage({ go, signIn }: LoginPageProps) {
               <div key={w} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
                 {Array.from({ length: 7 }).map((_, d) => {
                   const colors = ['#EEEAE5', '#F2D7C5', '#E8AE89', '#DC8657', '#B45C36'];
-                  // Deterministic pattern based on position
                   const seed = (w * 7 + d) * 2654435761;
                   const r = ((seed >>> 0) % 100) / 100;
                   const level = r < 0.4 ? 0 : r < 0.6 ? 1 : r < 0.8 ? 2 : r < 0.92 ? 3 : 4;
@@ -59,40 +50,20 @@ export default function LoginPage({ go, signIn }: LoginPageProps) {
           </div>
         </div>
 
-        <button onClick={() => agreed && signIn()} style={{
+        <button onClick={handleKakaoLogin} style={{
           width: '100%', height: 54,
-          background: agreed ? '#FEE500' : '#FEE50080', color: '#000',
+          background: '#FEE500',
+          color: 'rgba(0,0,0,0.85)',
           border: 'none', borderRadius: 12,
-          fontSize: 15, fontWeight: 600, cursor: agreed ? 'pointer' : 'not-allowed',
+          fontSize: 15, fontWeight: 600, cursor: 'pointer',
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
           marginBottom: 12,
         }}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 3C6.5 3 2 6.5 2 10.8c0 2.8 1.9 5.3 4.7 6.7l-1.2 4.4c-.1.3.3.6.6.4l5.2-3.4c.2 0 .4 0 .7 0 5.5 0 10-3.5 10-7.8S17.5 3 12 3z"/>
+          <svg width="22" height="22" viewBox="0 0 256 256" fill="none">
+            <path fillRule="evenodd" clipRule="evenodd" d="M128 36C70.562 36 24 72.713 24 117.665C24 146.566 43.17 172.094 72.292 186.381L61.146 224.867C60.333 227.654 63.554 229.876 65.987 228.276L111.489 198.136C116.878 198.72 122.394 199.33 128 199.33C185.438 199.33 232 162.617 232 117.665C232 72.713 185.438 36 128 36Z" fill="black"/>
           </svg>
-          카카오로 시작하기
+          카카오 로그인
         </button>
-
-        <button onClick={() => setAgreed(!agreed)} style={{
-          width: '100%', background: 'none', border: 'none',
-          display: 'flex', alignItems: 'flex-start', gap: 10,
-          padding: '10px 0', cursor: 'pointer', textAlign: 'left',
-        }}>
-          <div style={{
-            width: 18, height: 18, borderRadius: 4, flexShrink: 0,
-            border: `1.5px solid ${agreed ? 'var(--primary)' : 'var(--border-strong)'}`,
-            background: agreed ? 'var(--primary)' : 'transparent',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            marginTop: 1,
-          }}>
-            {agreed && <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"/></svg>}
-          </div>
-          <span style={{ fontSize: 12.5, color: 'var(--text-secondary)', lineHeight: 1.55 }}>
-            <span style={{ color: 'var(--primary)', fontWeight: 600 }}>(필수)</span> 이용약관 및 개인정보처리방침에 동의합니다.
-          </span>
-        </button>
-
-        <div style={{ flex: 1 }}></div>
 
         <p style={{ fontSize: 12, color: 'var(--text-muted)', textAlign: 'center', margin: '0 0 12px', lineHeight: 1.55 }}>
           처음이신가요? 카카오 로그인으로 자동 회원가입됩니다.

@@ -86,6 +86,7 @@ export interface ExamDdayInfo {
 }
 
 export interface User {
+  id: string;
   name: string;
   initial: string;
   joinedAt: number;

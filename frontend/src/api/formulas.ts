@@ -1,3 +1,5 @@
+import { supabase } from '../lib/supabase';
+
 // 백엔드 API 클라이언트 — 하드코딩 데이터 없음
 
 export interface CategoryDto {
@@ -73,4 +75,32 @@ export function fetchFormula(formulaId: number): Promise<FormulaDto> {
   });
   formulaCache.set(formulaId, p);
   return p;
+}
+
+// --- 인증 필요 API ---
+
+async function authFetch<T>(path: string, options?: RequestInit): Promise<T> {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) throw new Error('Not authenticated');
+
+  const res = await fetch(`/api${path}`, {
+    ...options,
+    headers: {
+      ...options?.headers,
+      'Authorization': `Bearer ${session.access_token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!res.ok) throw new Error(`API ${res.status}`);
+  const json: ApiResponse<T> = await res.json();
+  if (!json.success) throw new Error(json.error || 'Unknown error');
+  return json.data;
+}
+
+export function fetchFavorites(): Promise<number[]> {
+  return authFetch<number[]>('/favorites');
+}
+
+export function toggleFavoriteApi(formulaId: number): Promise<{ added: boolean; formulaId: number }> {
+  return authFetch('/favorites/' + formulaId, { method: 'POST' });
 }
